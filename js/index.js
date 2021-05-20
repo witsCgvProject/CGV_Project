@@ -168,19 +168,22 @@ function handleKeyDown(keyEvent){
 		bounceValue=0.06;
 	}
 }
+
 function addHero(){
-	var sphereGeometry = new THREE.DodecahedronGeometry( heroRadius, 1);
+	var sphereGeometry = new THREE.BoxGeometry( heroRadius, 1); //what type of object our hero is 
 	var sphereMaterial = new THREE.MeshPhongMaterial( { color: 0xe5f2f2 ,shading:THREE.FlatShading} )
 	jumping=false;
 	heroSphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
 	heroSphere.receiveShadow = true;
 	heroSphere.castShadow=true;
-	scene.add( heroSphere );
+	scene.add( heroSphere ); //adds ball to scene
 	heroSphere.position.y=heroBaseY;
 	heroSphere.position.z=4.8;
 	currentLane=middleLane;
 	heroSphere.position.x=currentLane;
 }
+
+
 function addWorld(){
 	var sides=40;
 	var tiers=40;
@@ -366,7 +369,7 @@ function update(){
 	//stats.update();
     //animate
     rollingGroundSphere.rotation.x += rollingSpeed;
-    heroSphere.rotation.x -= heroRollingSpeed;
+    //heroSphere.rotation.x -= heroRollingSpeed; //rotates the hero to do flips
     if(heroSphere.position.y<=heroBaseY){
     	jumping=false;
     	bounceValue=(Math.random()*0.04)+0.005;
