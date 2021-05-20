@@ -61,7 +61,7 @@ function createScene(){
     sceneHeight=window.innerHeight;
     scene = new THREE.Scene();//the 3d scene
     scene.fog = new THREE.FogExp2( 0xf0fff0, 0.14 );
-    camera = new THREE.PerspectiveCamera( 60, sceneWidth / sceneHeight, 0.1, 1000 );//perspective camera
+    camera = new THREE.PerspectiveCamera( 75, sceneWidth / sceneHeight, 0.1, 1000 );//perspective camera
     renderer = new THREE.WebGLRenderer({alpha:true});//renderer with transparent backdrop
     renderer.setClearColor(0xfffafa, 1); 
     renderer.shadowMap.enabled = true;//enable shadow
@@ -170,8 +170,8 @@ function handleKeyDown(keyEvent){
 }
 
 function addHero(){
-	var sphereGeometry = new THREE.BoxGeometry( heroRadius, 1); //what type of object our hero is 
-	var sphereMaterial = new THREE.MeshPhongMaterial( { color: 0xe5f2f2 ,shading:THREE.FlatShading} )
+	var sphereGeometry = new THREE.BoxGeometry( 0.5, 0.2,0.5); //what type of object our hero is 
+	var sphereMaterial = new THREE.MeshPhongMaterial( { color: 0x2599ea ,shading:THREE.FlatShading} )
 	jumping=false;
 	heroSphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
 	heroSphere.receiveShadow = true;
