@@ -66,7 +66,7 @@ function createScene(){
     renderer.setClearColor(0xfffafa, 1); 
     renderer.shadowMap.enabled = true;//enable shadow
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.setSize( sceneWidth, sceneHeight );
+    renderer.setSize( sceneWidth*0.95, sceneHeight*0.95 );
     dom = document.getElementById('TutContainer');
 	dom.appendChild(renderer.domElement);
 	//stats = new Stats();
@@ -451,7 +451,7 @@ function onWindowResize() {
 	//resize & align
 	sceneHeight = window.innerHeight;
 	sceneWidth = window.innerWidth;
-	renderer.setSize(sceneWidth, sceneHeight);
+	renderer.setSize(sceneWidth*0.95, sceneHeight*0.95);
 	camera.aspect = sceneWidth/sceneHeight;
 	camera.updateProjectionMatrix();
 }
