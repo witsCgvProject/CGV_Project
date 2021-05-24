@@ -100,8 +100,7 @@ function World() {
 		character = new Character();
 		scene.add(character.element);
 
-		// var ground = createBox(4000, 20, 120000, Colors.sand, 0, -400, -60000);
-		var ground = createBox(3000, 20, 120000, Colors.cherry, 0, -400, -60000);
+		var ground = createBox(3000, 20, 120000, Colors.grey, 0, -400, -60000);
 		scene.add(ground);
 
 		objects = [];
@@ -402,8 +401,8 @@ function Character() {
 	// Character defaults that don't change throughout the game.
 	this.skinColor = Colors.brown;
 	this.hairColor = Colors.black;
-	this.shirtColor = Colors.yellow;
-	this.shortsColor = Colors.olive;
+	this.shirtColor = Colors.blue;
+	this.shortsColor = Colors.blue;
 	this.jumpDuration = 0.6;
 	this.jumpHeight = 2000;
 
