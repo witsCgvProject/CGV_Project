@@ -100,7 +100,7 @@ function World() {
 		character = new Character();
 		scene.add(character.element);
 
-		var ground = createBox(3000, 20, 120000, Colors.grey, 0, -400, -60000);
+		var ground = createBox(3000, 20, 120000, Colors.cherry, 0, -400, -60000);
 		scene.add(ground);
 
 		objects = [];
