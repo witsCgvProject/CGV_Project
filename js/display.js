@@ -22,6 +22,8 @@ var Colors = {
 	peach: 0xffdab9,
 	yellow: 0xffff00,
 	olive: 0x556b2f,
+	grey:  0x808080
+	
 };
 
 var deg2Rad = Math.PI / 180;
