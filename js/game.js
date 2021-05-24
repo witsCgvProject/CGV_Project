@@ -405,7 +405,7 @@ function Character() {
 	this.shirtColor = Colors.yellow;
 	this.shortsColor = Colors.olive;
 	this.jumpDuration = 0.6;
-	this.jumpHeight = 1000;
+	this.jumpHeight = 2000;
 
 	// Initialize the character.
 	init();
