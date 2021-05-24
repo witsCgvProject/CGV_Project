@@ -52,7 +52,7 @@ function World() {
 
 	// Scoped variables in this world.
 	var element, scene, camera, character, renderer, light,
-		objects, paused, keysAllowed, score, difficulty,
+		objects, paused, keysAllowed, score, level, difficulty,
 		treePresenceProb, maxTreeSize, fogDistance, gameOver;
 
 	// Initialize the world.
@@ -172,11 +172,13 @@ function World() {
 			}
 		);
 
-		// Initialize the scores and difficulty.
+		// Initialize the scores, level and difficulty.
 		score = 0;
 		difficulty = 0;
+		level = 1;
 		document.getElementById("score").innerHTML = score;
-
+		document.getElementById("level").innerHTML = level;
+		
 		// Begin the rendering loop.
 		loop();
 
@@ -306,12 +308,19 @@ function World() {
     				row.insertCell(0).innerHTML = "105k-124k";
     				row.insertCell(1).innerHTML = rankNames[7];
     			}
-
 			}
-
+			
 			// Update the scores.
 			score += 10;
 			document.getElementById("score").innerHTML = score;
+			
+			//update level based on score
+			if (score > 1000){
+				document.getElementById("level").innerHTML = 2;
+			}
+			if (score > 2000){
+				document.getElementById("level").innerHTML = 3;
+			}
 
 		}
 
