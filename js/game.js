@@ -100,7 +100,8 @@ function World() {
 		character = new Character();
 		scene.add(character.element);
 
-		var ground = createBox(3000, 20, 120000, Colors.sand, 0, -400, -60000);
+		// var ground = createBox(4000, 20, 120000, Colors.sand, 0, -400, -60000);
+		var ground = createBox(3000, 20, 120000, Colors.cherry, 0, -400, -60000);
 		scene.add(ground);
 
 		objects = [];
@@ -646,15 +647,31 @@ function Tree(x, y, z, s) {
 
 	// The object portrayed in the scene.
 	this.mesh = new THREE.Object3D();
-    var top = createCylinder(1, 300, 300, 4, Colors.green, 0, 1000, 0);
-    var mid = createCylinder(1, 400, 400, 4, Colors.green, 0, 800, 0);
-    var bottom = createCylinder(1, 500, 500, 4, Colors.green, 0, 500, 0);
-    var trunk = createCylinder(100, 100, 250, 32, Colors.brownDark, 0, 125, 0);
-    this.mesh.add(top);
-    this.mesh.add(mid);
-    this.mesh.add(bottom);
-    this.mesh.add(trunk);
-    this.mesh.position.set(x, y, z);
+	
+	
+	
+	
+	//make metallic spikes
+	var spikeMiddle = createCylinder(0, 150, 750, 64, Colors.grey, 250, 500, 0);
+	var spikeLeft = createCylinder(0, 150, 750, 64, Colors.grey, 0, 500, 0);
+	var spikeRight = createCylinder(0, 150, 750, 64, Colors.grey, -250, 500, 0);
+
+	//create box
+	const geometry = new THREE.BoxGeometry( 1000, 500, 500 );
+	const material = new THREE.MeshPhongMaterial( {color:  0x808080} );
+	const cube = new THREE.Mesh( geometry, material );
+	
+	
+
+	//this.mesh.add(top);
+    //this.mesh.add(mid);
+    //this.mesh.add(bottom);
+    //this.mesh.add(trunk);
+	this.mesh.add(spikeMiddle)
+	this.mesh.add(spikeLeft)
+	this.mesh.add(spikeRight)
+    this.mesh.add(cube);
+	this.mesh.position.set(x, y, z);
 	this.mesh.scale.set(s, s, s);
 	this.scale = s;
 
