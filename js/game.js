@@ -52,7 +52,7 @@ function World() {
 
 	// Scoped variables in this world.
 	var element, scene, camera, character, renderer, light,
-		objects, paused, keysAllowed, score, difficulty,
+		objects, paused, keysAllowed, score, level, difficulty,
 		treePresenceProb, maxTreeSize, fogDistance, gameOver;
 
 	// Initialize the world.
@@ -171,11 +171,13 @@ function World() {
 			}
 		);
 
-		// Initialize the scores and difficulty.
+		// Initialize the scores, level and difficulty.
 		score = 0;
 		difficulty = 0;
+		level = 1;
 		document.getElementById("score").innerHTML = score;
-
+		document.getElementById("level").innerHTML = level;
+		
 		// Begin the rendering loop.
 		loop();
 
@@ -305,12 +307,19 @@ function World() {
     				row.insertCell(0).innerHTML = "105k-124k";
     				row.insertCell(1).innerHTML = rankNames[7];
     			}
-
 			}
-
+			
 			// Update the scores.
 			score += 10;
 			document.getElementById("score").innerHTML = score;
+			
+			//update level based on score
+			if (score > 1000){
+				document.getElementById("level").innerHTML = 2;
+			}
+			if (score > 2000){
+				document.getElementById("level").innerHTML = 3;
+			}
 
 		}
 
@@ -395,7 +404,7 @@ function Character() {
 	this.shirtColor = Colors.blue;
 	this.shortsColor = Colors.blue;
 	this.jumpDuration = 0.6;
-	this.jumpHeight = 2000;
+	this.jumpHeight = 1000;
 
 	// Initialize the character.
 	init();
@@ -637,15 +646,31 @@ function Tree(x, y, z, s) {
 
 	// The object portrayed in the scene.
 	this.mesh = new THREE.Object3D();
-    var top = createCylinder(1, 300, 300, 4, Colors.green, 0, 1000, 0);
-    var mid = createCylinder(1, 400, 400, 4, Colors.green, 0, 800, 0);
-    var bottom = createCylinder(1, 500, 500, 4, Colors.green, 0, 500, 0);
-    var trunk = createCylinder(100, 100, 250, 32, Colors.brownDark, 0, 125, 0);
-    this.mesh.add(top);
-    this.mesh.add(mid);
-    this.mesh.add(bottom);
-    this.mesh.add(trunk);
-    this.mesh.position.set(x, y, z);
+	
+	
+	
+	
+	//make metallic spikes
+	var spikeMiddle = createCylinder(0, 150, 750, 64, Colors.grey, 250, 500, 0);
+	var spikeLeft = createCylinder(0, 150, 750, 64, Colors.grey, 0, 500, 0);
+	var spikeRight = createCylinder(0, 150, 750, 64, Colors.grey, -250, 500, 0);
+
+	//create box
+	const geometry = new THREE.BoxGeometry( 1000, 500, 500 );
+	const material = new THREE.MeshPhongMaterial( {color:  0x808080} );
+	const cube = new THREE.Mesh( geometry, material );
+	
+	
+
+	//this.mesh.add(top);
+    //this.mesh.add(mid);
+    //this.mesh.add(bottom);
+    //this.mesh.add(trunk);
+	this.mesh.add(spikeMiddle)
+	this.mesh.add(spikeLeft)
+	this.mesh.add(spikeRight)
+    this.mesh.add(cube);
+	this.mesh.position.set(x, y, z);
 	this.mesh.scale.set(s, s, s);
 	this.scale = s;
 
