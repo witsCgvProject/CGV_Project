@@ -85,7 +85,7 @@ function World() {
 		// near plane, and far plane.
 		camera = new THREE.PerspectiveCamera(
 			60, element.clientWidth / element.clientHeight, 1, 120000);
-		camera.position.set(0, 1500, -2000);
+		camera.position.set(0, 1000, -2000);
 		camera.lookAt(new THREE.Vector3(0, 600, -5000));
 		window.camera = camera;
 
