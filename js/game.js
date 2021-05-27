@@ -134,7 +134,7 @@ function World() {
 
     var geometryLeft = new THREE.BoxGeometry(3000, 20, 120000);
     const loaderLeft = new THREE.TextureLoader();
-    loaderLeft.load("js/brick_text.jpg", (texture) => {
+    loaderLeft.load("js/metal_text.jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
       cubeLeft.position.set(-1500, -400, -60000);
@@ -146,7 +146,7 @@ function World() {
     var geometryRight = new THREE.BoxGeometry(3000, 20, 120000);
     // const cubes = []; // just an array we can use to rotate the cubes
     const loaderRight = new THREE.TextureLoader();
-    loaderRight.load("js/brick_text.jpg", (texture) => {
+    loaderRight.load("js/metal_text.jpg", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
       cubeRight.position.set(1500, -400, -60000);
