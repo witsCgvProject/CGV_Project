@@ -215,9 +215,9 @@ function World() {
     // Initialize the scores, level and difficulty.
     score = 0;
     difficulty = 0;
-    level = 1;
+    // level = 1;
     document.getElementById("score").innerHTML = score;
-    document.getElementById("level").innerHTML = level;
+    // document.getElementById("level").innerHTML = level;
 
     // Begin the rendering loop.
     loop();
@@ -371,12 +371,12 @@ function World() {
       document.getElementById("score").innerHTML = score;
 
       //update level based on score
-      if (score > 1000) {
-        document.getElementById("level").innerHTML = 2;
-      }
-      if (score > 2000) {
-        document.getElementById("level").innerHTML = 3;
-      }
+      // if (score > 1000) {
+      //   document.getElementById("level").innerHTML = 2;
+      // }
+      // if (score > 2000) {
+      //   document.getElementById("level").innerHTML = 3;
+      // }
     }
 
     // Render the page and repeat.

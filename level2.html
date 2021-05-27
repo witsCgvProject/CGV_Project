@@ -4,7 +4,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet">
 		<!-- <script type="text/javascript" src="js/three.min.js"></script> -->
 		<script type="text/javascript" src="js/three.js"></script>
-        <script type="text/javascript" src="js/game.js"></script>
+        <script type="text/javascript" src="js/level2.js"></script>
 		<link href="style.css" rel="stylesheet">
 	</head>
 	<body>
@@ -18,11 +18,11 @@
 			</div>
 			<div class="stat">
 				<label>Level</label>
-				<p id="level">1</p>
+				<p id="level">2</p>
 			</div>
 			<div>
-				<button>Level 1</button>
-				<br><button onclick="level2()">Level 2</button>
+				<button onclick="level1()">Level 1</button>
+				<br><button >Level 2</button>
 				<br><button onclick="level3()">Level 3</button>
 			</div>
 
@@ -52,12 +52,12 @@
 		</div>
 
 		<script>
-			function level2() {
-				window.location = "level2.html"; 
-			}
-			function level3() {
+			function level1() {
+				window.location = "index.html"; 
+			}	
+            function level3() {
 				window.location = "level3.html"; 
-			}		
+			}	
 		</script>
 
 	</body>
