@@ -336,6 +336,8 @@ function World() {
 
       // Update the scores.
       score += 10;
+      window.alert("score is "+score);
+
       document.getElementById("score").innerHTML = score;
 
       //update level based on score
@@ -411,7 +413,7 @@ function World() {
     }
     return false;
   }
-}
+} //end of world function
 
 /**
  *
