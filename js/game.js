@@ -122,7 +122,6 @@ function World() {
 
     //Create Running Platform
 
-
     var geometry = new THREE.BoxGeometry(3000, 20, 120000);
     const cubes = []; // just an array we can use to rotate the cubes
     const loader = new THREE.TextureLoader();
@@ -210,6 +209,7 @@ function World() {
       // Add more trees and increase the difficulty.
       if (objects[objects.length - 1].mesh.position.z % 3000 == 0) {
         difficulty += 1;
+        // window.alert("difficulty is "+difficulty);
         var levelLength = 30;
         if (difficulty % levelLength == 0) {
           var level = difficulty / levelLength;
@@ -343,6 +343,8 @@ function World() {
 
       // Update the scores.
       score += 10;
+      // window.alert("score is "+score);
+
       document.getElementById("score").innerHTML = score;
 
       //update level based on score
@@ -418,7 +420,7 @@ function World() {
     }
     return false;
   }
-}
+} //end of world function
 
 /**
  *
@@ -704,12 +706,25 @@ function Tree(x, y, z, s) {
   var spikeLeft = createCylinder(0, 150, 750, 64, Colors.grey, 0, 500, 0);
   var spikeRight = createCylinder(0, 150, 750, 64, Colors.grey, -250, 500, 0);
 
+  //Insert Coin
+  const texture = new THREE.TextureLoader().load( "js/coin_text.jpg" );
+
+  const material = new THREE.MeshStandardMaterial({map: texture})
+
+  var geometry = new THREE.CylinderGeometry(300,300,40,100);
+  const coin = new THREE.Mesh(geometry,material)
+  coin.position.set(0,1000,0)
+  coin.rotation.x=2
+  coin.rotation.y = 1.5
+
+  this.mesh.add(coin)
+
   //create box
 
   var geometry = new THREE.BoxGeometry(1000, 500, 500);
-  const cubes = []; // just an array we can use to rotate the cubes
+ // const cubes = []; // just an array we can use to rotate the cubes
   const loader = new THREE.TextureLoader();
-  loader.load("js/lava_text.jpg", (texture) => {
+  loader.load("js/metal_text.jpg", (texture) => {
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const cube = new THREE.Mesh(geometry, material);
     this.mesh.add(cube);
@@ -831,29 +846,27 @@ function createBox(dx, dy, dz, color, x, y, z, notFlatShading) {
  * @param {number} Z The z-coordinate of the center of the cylinder.
  * @return {THREE.Mesh} A box with the specified properties.
  */
-function createCylinder(
-  radiusTop,
-  radiusBottom,
-  height,
-  radialSegments,
-  color,
-  x,
-  y,
-  z
-) {
-  var geom = new THREE.CylinderGeometry(
-    radiusTop,
-    radiusBottom,
-    height,
-    radialSegments
-  );
-  var mat = new THREE.MeshPhongMaterial({
-    color: color,
-    flatShading: true,
-  });
-  var cylinder = new THREE.Mesh(geom, mat);
-  cylinder.castShadow = true;
-  cylinder.receiveShadow = true;
-  cylinder.position.set(x, y, z);
-  return cylinder;
+
+
+function createCylinder( radiusTop, radiusBottom, height, radialSegments, color, x, y, z) {
+
+  var geom = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, radialSegments);
+  const texture = new THREE.TextureLoader().load( "js/metal_text.jpg" );
+  const mat = new THREE.MeshStandardMaterial({map: texture})
+    var cylinder = new THREE.Mesh(geom, mat);
+    cylinder.castShadow = true;
+    cylinder.receiveShadow = true;
+    cylinder.position.set(x, y, z);
+    return cylinder;
+
+  // var mat = new THREE.MeshPhongMaterial({
+  //   color: color,
+  //   flatShading: true,
+  // });
+  // var cylinder = new THREE.Mesh(geom, mat);
+
+  // cylinder.castShadow = true;
+  // cylinder.receiveShadow = true;
+  // cylinder.position.set(x, y, z);
+  // return cylinder;
 }
