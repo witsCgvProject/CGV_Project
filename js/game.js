@@ -203,6 +203,7 @@ function World() {
       // Add more trees and increase the difficulty.
       if (objects[objects.length - 1].mesh.position.z % 3000 == 0) {
         difficulty += 1;
+        // window.alert("difficulty is "+difficulty);
         var levelLength = 30;
         if (difficulty % levelLength == 0) {
           var level = difficulty / levelLength;
@@ -336,7 +337,7 @@ function World() {
 
       // Update the scores.
       score += 10;
-      window.alert("score is "+score);
+      // window.alert("score is "+score);
 
       document.getElementById("score").innerHTML = score;
 
