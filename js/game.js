@@ -24,6 +24,8 @@ var Colors = {
   green: 0x669900,
 };
 
+var camera_x;
+
 var deg2Rad = Math.PI / 180;
 
 // Make a new world when the page is loaded.
@@ -75,6 +77,7 @@ function World() {
    */
   function init() {
     // Locate where the world is to be located on the screen.
+    camera_x = 0;
     element = document.getElementById("world");
 
     // Initialize the renderer.
@@ -99,9 +102,12 @@ function World() {
       1,
       120000
     );
-    camera.position.set(0, 1500, -2000);
+    camera.position.set(0, 1000, -2000);
     camera.lookAt(new THREE.Vector3(0, 600, -5000));
     window.camera = camera;
+    // camera.position.set(0, 1500, -2000);
+    // camera.lookAt(new THREE.Vector3(0, 600, -5000));
+    // window.camera = camera;
 
     // Set up resizing capabilities.
     window.addEventListener("resize", handleWindowResize, false);
@@ -552,16 +558,24 @@ function Character() {
         case "left":
           if (self.currentLane != -1) {
             self.isSwitchingLeft = true;
+            camera_x -= 500;
+            // camera.position.set(camera_x, 1500, -2000);
+            // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
           break;
         case "right":
           if (self.currentLane != 1) {
             self.isSwitchingRight = true;
+            camera_x += 500;
+            // camera.position.set(camera_x, 1500, -2000);
+            // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
           break;
       }
     }
-
+    camera.position.set(camera_x, 1000, -2000);
+    camera.lookAt(new THREE.Vector3(camera_x, 200, -5000));
+    window.camera = camera;
     // If the character is jumping, update the height of the character.
     // Otherwise, the character continues running.
     if (self.isJumping) {
