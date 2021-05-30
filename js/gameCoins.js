@@ -4,7 +4,7 @@
 /**
  * Constants used in this game.
  */
-var Colors = {
+ var Colors = {
   cherry: 0xe35d6a,
   blue: 0x1560bd,
   white: 0xd8d0d1,
@@ -18,9 +18,7 @@ var Colors = {
   brownDark: 0x23190f,
   green: 0x669900,
 };
-
 var camera_x;
-
 var deg2Rad = Math.PI / 180;
 
 // Make a new world when the page is loaded.
@@ -28,12 +26,8 @@ window.addEventListener("load", function () {
   new World();
 });
 
-/**
- *
+/*
  * THE WORLD
- *
- * The world in which Boxy Run takes place.
- *
  */
 
 /**
@@ -53,15 +47,17 @@ function World() {
     renderer,
     light,
     objects,
+    objectsCoins,
     paused,
     keysAllowed,
     score,
     level,
     difficulty,
-    treePresenceProb,
-    maxTreeSize,
+    spikePresenceProb,
+    maxSpikeSize,
     fogDistance,
     gameOver;
+    var coinsCollected = 0;
     
 
   // Initialize the world.
@@ -73,7 +69,7 @@ function World() {
    */
   function init() {
     // Locate where the world is to be located on the screen.
-    camera_x = 0;
+    camera_x=0;
     element = document.getElementById("world");
 
     // Initialize the renderer.
@@ -98,16 +94,12 @@ function World() {
       1,
       120000
     );
-    // camera.position.set(0, 1000, -2300);
-    // camera.lookAt(new THREE.Vector3(0, 800, -3500));
-
+    // camera.position.set(0, 1500, -2000);
+    // camera.lookAt(new THREE.Vector3(0, 600, -5000));
     
     camera.position.set(0, 700, -1600);
     camera.lookAt(new THREE.Vector3(0, 650, -10000));
     window.camera = camera;
-    // camera.position.set(0, 1500, -2000);
-    // camera.lookAt(new THREE.Vector3(0, 600, -5000));
-    // window.camera = camera;
 
     // Set up resizing capabilities.
     window.addEventListener("resize", handleWindowResize, false);
@@ -121,17 +113,6 @@ function World() {
     scene.add(character.element);
 
     //Create Running Platform
-
-    // var geometry = new THREE.BoxGeometry(8000, 0, 120000);
-    // const cubes = []; // just an array we can use to rotate the cubes
-    // const loader = new THREE.TextureLoader();
-    // loader.load("js/lava_text.jpg", (texture) => {
-    //   const material = new THREE.MeshBasicMaterial({ map: texture });
-    //   const cube = new THREE.Mesh(geometry, material);
-    //   cube.position.set(0, -400, -60000);
-    //   scene.add(cube);
-    // });
-
     var geometry = new THREE.BoxGeometry(8000, 0, 120000);
     const loader = new THREE.TextureLoader().load( "images/groundBricks.png", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
@@ -148,7 +129,7 @@ function World() {
     loaderLeft.load("js/metal_text.jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
-      cubeLeft.position.set(-1500, -400, -60000);
+      cubeLeft.position.set(-1800, -400, -60000);
       scene.add(cubeLeft);
 
       cubeLeft.rotation.z =-1.5;
@@ -160,17 +141,21 @@ function World() {
     loaderRight.load("js/metal_text.jpg", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
-      cubeRight.position.set(1500, -400, -60000);
+      cubeRight.position.set(1800, -400, -60000);
       scene.add(cubeRight);
 
       cubeRight.rotation.z =1.5;
     });
 
     objects = [];
-    treePresenceProb = 0.2;
-    maxTreeSize = 0.5;
+    objectsCoins = [];
+    spikePresenceProb = 0.2;
+    maxSpikeSize = 0.5;
     for (var i = 10; i < 40; i++) {
-      createRowOfTrees(i * -3000, treePresenceProb, 0.5, maxTreeSize);
+      createRowOfSpikes(i * -3000, spikePresenceProb, 0.5, maxSpikeSize);
+    }
+    for (var i = 10; i < 40; i++) {
+      createRowOfCoins(i * -3000, spikePresenceProb, 0.5, maxSpikeSize);
     }
 
 
@@ -227,9 +212,10 @@ function World() {
     // Initialize the scores, level and difficulty.
     score = 0;
     difficulty = 0;
-    // level = 1;
+    level = 1;
     document.getElementById("score").innerHTML = score;
-    // document.getElementById("level").innerHTML = level;
+    document.getElementById("level").innerHTML = level;
+    document.getElementById("coins").innerHTML = coinsCollected;
 
     // Begin the rendering loop.
     loop();
@@ -241,41 +227,32 @@ function World() {
   function loop() {
     // Update the game.
     if (!paused) {
-      // Add more trees and increase the difficulty.
+      // Add more spikes and increase the difficulty.
       if (objects[objects.length - 1].mesh.position.z % 3000 == 0) {
         difficulty += 1;
-        // window.alert("difficulty is "+difficulty);
         var levelLength = 30;
         if (difficulty % levelLength == 0) {
           var level = difficulty / levelLength;
           switch (level) {
             case 1:
-              treePresenceProb = 0.35;
-              maxTreeSize = 0.5;
+              spikePresenceProb = 0.35;
               break;
             case 2:
-              treePresenceProb = 0.35;
-              maxTreeSize = 0.85;
+              spikePresenceProb = 0.4;
               break;
             case 3:
-              treePresenceProb = 0.5;
-              maxTreeSize = 0.85;
+              spikePresenceProb = 0.45;
               break;
             case 4:
-              treePresenceProb = 0.5;
-              maxTreeSize = 1.1;
+              spikePresenceProb = 0.5;
               break;
             case 5:
-              treePresenceProb = 0.5;
-              maxTreeSize = 1.1;
+              spikePresenceProb = 0.55;
               break;
             case 6:
-              treePresenceProb = 0.55;
-              maxTreeSize = 1.1;
+              spikePresenceProb = 0.6;
               break;
-            default:
-              treePresenceProb = 0.55;
-              maxTreeSize = 1.25;
+
           }
         }
         if (difficulty >= 5 * levelLength && difficulty < 6 * levelLength) {
@@ -286,22 +263,38 @@ function World() {
         ) {
           fogDistance -= 5000 / levelLength;
         }
-        createRowOfTrees(-120000, treePresenceProb, 0.5, maxTreeSize);
+        createRowOfSpikes(-120000, spikePresenceProb, 0.5, maxSpikeSize);
+        createRowOfCoins(-120000, spikePresenceProb, 0.5, maxSpikeSize);
         scene.fog.far = fogDistance;
       }
 
-      // Move the trees closer to the character.
+      // Move the spikess closer to the character.
       objects.forEach(function (object) {
         object.mesh.position.z += 100;
       });
+      // Move the coins closer to the character.
+      objectsCoins.forEach(function (object) {
+        object.mesh.position.z += 100;
+      });
 
-      // Remove trees that are outside of the world.
+      // Remove spikes that are outside of the world.
       objects = objects.filter(function (object) {
+        return object.mesh.position.z < 0;
+      });
+      // Remove coins that are outside of the world.
+      objectsCoins = objectsCoins.filter(function (object) {
         return object.mesh.position.z < 0;
       });
 
       // Make the character move according to the controls.
       character.update();
+
+      // Check for collisions between the character and coin.
+      if (collisionsDetectedCoin()) {
+        coinsCollected+=1;
+        
+        console.log(coinsCollected)
+       }
 
       // Check for collisions between the character and objects.
       if (collisionsDetected()) {
@@ -376,19 +369,22 @@ function World() {
         }
       }
 
+      
+
       // Update the scores.
       score += 10;
-      // window.alert("score is "+score);
-
       document.getElementById("score").innerHTML = score;
 
+      // Update the coins collected.
+      document.getElementById("coins").innerHTML = coinsCollected;
+
       //update level based on score
-      // if (score > 1000) {
-      //   document.getElementById("level").innerHTML = 2;
-      // }
-      // if (score > 2000) {
-      //   document.getElementById("level").innerHTML = 3;
-      // }
+      if (score > 1000) {
+        document.getElementById("level").innerHTML = 2;
+      }
+      if (score > 2000) {
+        document.getElementById("level").innerHTML = 3;
+      }
     }
 
     // Render the page and repeat.
@@ -406,24 +402,38 @@ function World() {
   }
 
   /**
-   * Creates and returns a row of trees according to the specifications.
+   * Creates and returns a row of spikes with coins on top according to the specifications.
    *
-   * @param {number} POSITION The z-position of the row of trees.
+   * @param {number} POSITION The z-position of the row of spikes.
    * @param {number} PROBABILITY The probability that a given lane in the row
-   *                             has a tree.
-   * @param {number} MINSCALE The minimum size of the trees. The trees have a
+   *                             has a spikes.
+   * @param {number} MINSCALE The minimum size of the spikes. The spikes have a
    *							uniformly distributed size from minScale to maxScale.
-   * @param {number} MAXSCALE The maximum size of the trees.
+   * @param {number} MAXSCALE The maximum size of the spikes.
    *
    */
-  function createRowOfTrees(position, probability, minScale, maxScale) {
+  function createRowOfSpikes(position, probability, minScale, maxScale) {
     for (var lane = -1; lane < 2; lane++) {
       var randomNumber = Math.random();
       if (randomNumber < probability) {
-        var scale = minScale + (maxScale - minScale) * Math.random();
-        var tree = new Tree(lane * 800, -400, position, scale);
-        objects.push(tree);
-        scene.add(tree.mesh);
+        var scale = 0.70
+        var spike = new Spike(lane * 800, -400, position, scale);
+        objects.push(spike);
+        scene.add(spike.mesh);
+
+      }
+    }
+  }
+
+  function createRowOfCoins(position, probability, minScale, maxScale) {
+    for (var lane = -1; lane < 2; lane++) {
+      var randomNumber = Math.random();
+      if (randomNumber < probability) {
+        var scaleCoin = 0.5
+        var coin = new CoinFunc(lane * 800, -400, position, scaleCoin)
+        objectsCoins.push(coin)
+        scene.add(coin.mesh)
+        
       }
     }
   }
@@ -439,23 +449,34 @@ function World() {
     var charMaxY = character.element.position.y + 320;
     var charMinZ = character.element.position.z - 40;
     var charMaxZ = character.element.position.z + 40;
+
     for (var i = 0; i < objects.length; i++) {
-      if (
-        objects[i].collides(
-          charMinX,
-          charMaxX,
-          charMinY,
-          charMaxY,
-          charMinZ,
-          charMaxZ
-        )
-      ) {
+      if (objects[i].collides(charMinX,charMaxX,charMinY,charMaxY,charMinZ,charMaxZ)) {
         return true;
       }
     }
+
     return false;
   }
-} //end of world function
+
+  function collisionsDetectedCoin() {
+    var charMinX = character.element.position.x - 115;
+    var charMaxX = character.element.position.x + 115;
+    var charMinY = character.element.position.y - 310;
+    var charMaxY = character.element.position.y + 320;
+    var charMinZ = character.element.position.z - 40;
+    var charMaxZ = character.element.position.z + 40;
+
+    for (var i = 0; i < objectsCoins.length; i++) {
+      if (objectsCoins[i].collides(charMinX,charMaxX,charMinY,charMaxY,charMinZ,charMaxZ)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+  
+}//enf of world function
 
 /**
  *
@@ -613,6 +634,7 @@ function Character() {
     camera.position.set(camera_x, 700, -1600);
     camera.lookAt(new THREE.Vector3(camera_x, 650, -10000));
     window.camera = camera;
+
     // If the character is jumping, update the height of the character.
     // Otherwise, the character continues running.
     if (self.isJumping) {
@@ -725,10 +747,10 @@ function Character() {
 }
 
 /**
- * A collidable tree in the game positioned at X, Y, Z in the scene and with
+ * A collidable spike in the game positioned at X, Y, Z in the scene and with
  * scale S.
  */
-function Tree(x, y, z, s) {
+function Spike(x, y, z, s) {
   // Explicit binding.
   var self = this;
 
@@ -740,19 +762,6 @@ function Tree(x, y, z, s) {
   var spikeMiddle = createCylinder(0, 150, 750, 64, Colors.grey, 250, 500, 0);
   var spikeLeft = createCylinder(0, 150, 750, 64, Colors.grey, 0, 500, 0);
   var spikeRight = createCylinder(0, 150, 750, 64, Colors.grey, -250, 500, 0);
-
-  //Insert Coin
-  const texture = new THREE.TextureLoader().load( "js/coin_text.jpg" );
-
-  const material = new THREE.MeshStandardMaterial({map: texture})
-
-  var geometry = new THREE.CylinderGeometry(300,300,40,100);
-  const coin = new THREE.Mesh(geometry,material)
-  coin.position.set(0,1000,0)
-  coin.rotation.x=2
-  coin.rotation.y = 1.5
-
-  this.mesh.add(coin)
 
   //create box
 
@@ -774,25 +783,58 @@ function Tree(x, y, z, s) {
   this.scale = s;
 
   /**
-   * A method that detects whether this tree is colliding with the character,
+   * A method that detects whether this spike is colliding with the character,
    * which is modelled as a box bounded by the given coordinate space.
    */
   this.collides = function (minX, maxX, minY, maxY, minZ, maxZ) {
-    var treeMinX = self.mesh.position.x - this.scale * 250;
-    var treeMaxX = self.mesh.position.x + this.scale * 250;
-    var treeMinY = self.mesh.position.y;
-    var treeMaxY = self.mesh.position.y + this.scale * 1150;
-    var treeMinZ = self.mesh.position.z - this.scale * 250;
-    var treeMaxZ = self.mesh.position.z + this.scale * 250;
-    return (
-      treeMinX <= maxX &&
-      treeMaxX >= minX &&
-      treeMinY <= maxY &&
-      treeMaxY >= minY &&
-      treeMinZ <= maxZ &&
-      treeMaxZ >= minZ
-    );
+    var spikeMinX = self.mesh.position.x - this.scale * 250;
+    var spikeMaxX = self.mesh.position.x + this.scale * 250;
+    var spikeMinY = self.mesh.position.y;
+    var spikeMaxY = self.mesh.position.y + this.scale * 1150;
+    var spikeMinZ = self.mesh.position.z - this.scale * 250;
+    var spikeMaxZ = self.mesh.position.z + this.scale * 250;
+    return (spikeMinX <= maxX && spikeMaxX >= minX && spikeMinY <= maxY && spikeMaxY >= minY && spikeMinZ <= maxZ && spikeMaxZ >= minZ );
   };
+}
+
+function CoinFunc(x, y, z, s) {
+  // Explicit binding.
+  var self = this;
+
+  // The object portrayed in the scene.
+  this.mesh = new THREE.Object3D();
+
+  //Insert Coin
+  const texture = new THREE.TextureLoader().load( "js/coin_text.jpg" );
+
+  const material = new THREE.MeshStandardMaterial({map: texture})
+
+  var geometry = new THREE.CylinderGeometry(300,300,40,100);
+  const coin = new THREE.Mesh(geometry,material)
+  coin.position.set(0,2500,0)
+  coin.rotation.x=2
+  coin.rotation.y = 1.5
+
+  this.mesh.add(coin)
+
+  this.mesh.position.set(x, y, z);
+  this.mesh.scale.set(s, s, s);
+  this.scale = s;
+
+  /**
+   * A method that detects whether this coin is colliding with the character,
+   * which is modelled as a box bounded by the given coordinate space.
+   */
+  this.collides = function (minX, maxX, minY, maxY, minZ, maxZ) {
+    var coinMinX = this.mesh.position.x - this.scale * 250;
+    var coinMaxX = this.mesh.position.x + this.scale * 250;
+    var coinMinY = this.mesh.position.y+1250;
+    var coinMaxY = this.mesh.position.y + this.scale * 1150+1250;
+    var coinMinZ = this.mesh.position.z - this.scale * 250;
+    var coinMaxZ = this.mesh.position.z + this.scale * 250;
+    return (coinMinX <= maxX && coinMaxX >= minX && coinMinY <= maxY && coinMaxY >= minY && coinMinZ <= maxZ && coinMaxZ >= minZ );
+  };
+
 }
 
 /**
