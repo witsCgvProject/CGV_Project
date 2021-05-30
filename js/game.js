@@ -102,8 +102,12 @@ function World() {
       1,
       120000
     );
-    camera.position.set(0, 1000, -2000);
-    camera.lookAt(new THREE.Vector3(0, 600, -5000));
+    // camera.position.set(0, 1000, -2300);
+    // camera.lookAt(new THREE.Vector3(0, 800, -3500));
+
+    
+    camera.position.set(0, 700, -1600);
+    camera.lookAt(new THREE.Vector3(0, 650, -10000));
     window.camera = camera;
     // camera.position.set(0, 1500, -2000);
     // camera.lookAt(new THREE.Vector3(0, 600, -5000));
@@ -122,17 +126,28 @@ function World() {
 
     //Create Running Platform
 
-    var geometry = new THREE.BoxGeometry(3000, 20, 120000);
-    const cubes = []; // just an array we can use to rotate the cubes
-    const loader = new THREE.TextureLoader();
-    loader.load("js/lava_text.jpg", (texture) => {
+    // var geometry = new THREE.BoxGeometry(8000, 0, 120000);
+    // const cubes = []; // just an array we can use to rotate the cubes
+    // const loader = new THREE.TextureLoader();
+    // loader.load("js/lava_text.jpg", (texture) => {
+    //   const material = new THREE.MeshBasicMaterial({ map: texture });
+    //   const cube = new THREE.Mesh(geometry, material);
+    //   cube.position.set(0, -400, -60000);
+    //   scene.add(cube);
+    // });
+
+    var geometry = new THREE.BoxGeometry(8000, 0, 120000);
+    const loader = new THREE.TextureLoader().load( "images/groundBricks.png", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const cube = new THREE.Mesh(geometry, material);
       cube.position.set(0, -400, -60000);
+      loader.wrapS = THREE.RepeatWrapping;
+      loader.wrapT = THREE.RepeatWrapping;
+      loader.repeat.set( 7.5, 65);
       scene.add(cube);
     });
 
-    var geometryLeft = new THREE.BoxGeometry(3000, 20, 120000);
+    var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
     const loaderLeft = new THREE.TextureLoader();
     loaderLeft.load("js/metal_text.jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
@@ -142,7 +157,7 @@ function World() {
       cubeLeft.rotation.z =-1.5;
     });
 
-    var geometryRight = new THREE.BoxGeometry(3000, 20, 120000);
+    var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
     // const cubes = []; // just an array we can use to rotate the cubes
     const loaderRight = new THREE.TextureLoader();
     loaderRight.load("js/metal_text.jpg", (texture) => {
@@ -583,7 +598,7 @@ function Character() {
         case "left":
           if (self.currentLane != -1) {
             self.isSwitchingLeft = true;
-            camera_x -= 500;
+            camera_x -= 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -591,15 +606,15 @@ function Character() {
         case "right":
           if (self.currentLane != 1) {
             self.isSwitchingRight = true;
-            camera_x += 500;
+            camera_x += 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
           break;
       }
     }
-    camera.position.set(camera_x, 1000, -2000);
-    camera.lookAt(new THREE.Vector3(camera_x, 200, -5000));
+    camera.position.set(camera_x, 700, -1600);
+    camera.lookAt(new THREE.Vector3(camera_x, 650, -10000));
     window.camera = camera;
     // If the character is jumping, update the height of the character.
     // Otherwise, the character continues running.
