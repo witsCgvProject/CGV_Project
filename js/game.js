@@ -139,7 +139,6 @@ function World() {
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
       cubeLeft.position.set(-1500, -400, -60000);
       scene.add(cubeLeft);
-
       cubeLeft.rotation.z =-1.5;
     });
 
@@ -173,6 +172,7 @@ function World() {
     var p = 80;
 
     keysAllowed = {};
+
     document.addEventListener("keydown", function (e) {
       if (!gameOver) {
         var key = e.keyCode;
@@ -371,12 +371,12 @@ function World() {
       document.getElementById("score").innerHTML = score;
 
       //update level based on score
-      // if (score > 1000) {
-      //   document.getElementById("level").innerHTML = 2;
-      // }
-      // if (score > 2000) {
-      //   document.getElementById("level").innerHTML = 3;
-      // }
+      if (score > 2000) {
+        paused = true;
+      }
+      if (score > 2000) {
+        document.getElementById("level").innerHTML = 3;
+      }
     }
 
     // Render the page and repeat.
