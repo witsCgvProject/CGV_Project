@@ -176,7 +176,7 @@ function World() {
 
     objects = [];
     objectsCoins = [];
-    spikePresenceProb = 0.7;
+    spikePresenceProb = 0.2;
     maxSpikeSize = 0.5;
     for (var i = 10; i < 40; i++) {
       createRowOfSpikes(i * -3000, spikePresenceProb, 0.5, maxSpikeSize);
@@ -295,7 +295,7 @@ function World() {
 
       // Move the spikess closer to the character.
       objects.forEach(function (object) {
-        object.mesh.position.z += 100;
+        object.mesh.position.z += 300;
       });
       // Move the coins closer to the character.
       objectsCoins.forEach(function (object) {
