@@ -15,18 +15,16 @@
 			<div class="stat">
 				<label>Score</label>
 				<p id="score">0</p>
+				<label>Coins</label>
+				<p id="coins">0</p>
 			</div>
-			<div class="stat">
-				<label>Level</label>
-				<p id="level">3</p>
-			</div>
-			<div>
-				<button onclick="level1()">Level 1</button>
-				<br><button onclick="level2()">Level 2</button>
-				<br><button>Level 3</button>
+			<div class="level">
+				<button  onclick="level1()" class="button">Level 1</button>
+				<br><button onclick="level2()" class="button">Level 2</button>
+				<br><button style="background-color: green;" class="button">Level 3</button>
 			</div>
 
-			<table id="controls">
+			<table class="instructions" id="controls">
 			  	<tr>
 			    	<td>Up:</td>
 			    	<td>Jump</td>
@@ -44,20 +42,19 @@
 			    	<td>Pause</td>
 			  	</tr>
 			</table>
-			<table id="ranks"></table>
+			<!-- <table id="ranks"></table> -->
 			<div class="animate-flicker" id="variable-content">Press any button to begin</div>
 		</div>
 		<div id="world"></div>
 			
 		</div>
-
 		<script>
 			function level1() {
 				window.location = "index.html"; 
-			}	
+			}
 			function level2() {
 				window.location = "level2.html"; 
-			}
+			}	
 		</script>
 
 	</body>
