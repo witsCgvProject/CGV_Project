@@ -19,6 +19,9 @@
   green: 0x669900,
 };
 var camera_x;
+var camera_y;
+var camera_z_position;
+var camera_z_look;
 var deg2Rad = Math.PI / 180;
 
 // Make a new world when the page is loaded.
@@ -70,6 +73,9 @@ function World() {
   function init() {
     // Locate where the world is to be located on the screen.
     camera_x=0;
+    camera_y=700;
+    camera_z_position = -1600;
+    camera_z_look = -100000;
     element = document.getElementById("world");
 
     // Initialize the renderer.
@@ -94,11 +100,10 @@ function World() {
       1,
       120000
     );
-    // camera.position.set(0, 1500, -2000);
-    // camera.lookAt(new THREE.Vector3(0, 600, -5000));
     
-    camera.position.set(0, 700, -1600);
-    camera.lookAt(new THREE.Vector3(0, 650, -10000));
+    //init camera for first time
+    camera.position.set(0, camera_y, camera_z_position);
+    camera.lookAt(new THREE.Vector3(0, 650, camera_z_look));
     window.camera = camera;
 
     // Set up resizing capabilities.
@@ -124,6 +129,7 @@ function World() {
       scene.add(cube);
     });
 
+    //create walls
     var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
     const loaderLeft = new THREE.TextureLoader();
     loaderLeft.load("js/metal_text.jpg", (texture) => {
@@ -631,8 +637,20 @@ function Character() {
           break;
       }
     }
-    camera.position.set(camera_x, 700, -1600);
-    camera.lookAt(new THREE.Vector3(camera_x, 650, -10000));
+    // camera.position.set(camera_x, 700, -1600);
+    // camera.lookAt(new THREE.Vector3(camera_x, 650, -10000));
+
+    // if(camera_y >= 650){
+    //   camera_y -=1;
+    // }
+
+    //follow character
+    camera_z_position -= 100;
+    camera_z_look -= 100;
+
+    camera.position.set(camera_x, camera_y, camera_z_position);
+    camera.lookAt(new THREE.Vector3(camera_x, 650, camera_z_look));
+
     window.camera = camera;
 
     // If the character is jumping, update the height of the character.
@@ -703,6 +721,8 @@ function Character() {
         }
       }
     }
+    //move person forward
+    self.element.position.z -= 100;
   };
 
   /**
