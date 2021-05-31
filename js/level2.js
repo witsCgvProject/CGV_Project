@@ -23,6 +23,9 @@
   lightBlue: 0x9CBFE3
 };
 var camera_x;
+var camera_y;
+var camera_z_position;
+var camera_z_look;
 var deg2Rad = Math.PI / 180;
 
 // Make a new world when the page is loaded.
@@ -73,6 +76,9 @@ function World() {
   function init() {
     // Locate where the world is to be located on the screen.
     camera_x=0;
+    camera_y=700;
+    camera_z_position = -1600;
+    camera_z_look = -100000;
     element = document.getElementById("world");
 
     // Initialize the renderer.
@@ -97,11 +103,10 @@ function World() {
       1,
       120000
     );
-    // camera.position.set(0, 1500, -2000);
-    // camera.lookAt(new THREE.Vector3(0, 600, -5000));
     
-    camera.position.set(0, 700, -1600);
-    camera.lookAt(new THREE.Vector3(0, 650, -10000));
+    //init camera for first time
+    camera.position.set(0, camera_y, camera_z_position);
+    camera.lookAt(new THREE.Vector3(0, 650, camera_z_look));
     window.camera = camera;
 
     // Set up resizing capabilities.
@@ -127,17 +132,6 @@ function World() {
       scene.add(cube);
     });
 
-    // var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
-    // const loaderLeft = new THREE.TextureLoader();
-    // loaderLeft.load("js/lava_text.jpg", (texture) => {
-    //   const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
-    //   const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
-    //   cubeLeft.position.set(-1800, -400, -60000);
-    //   scene.add(cubeLeft);
-
-    //   cubeLeft.rotation.z =-1.5;
-    // });
-
     var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
     const loaderLeft = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
@@ -161,18 +155,6 @@ function World() {
       scene.add(cubeRight);
       cubeRight.rotation.z =1.5;
     });
-
-    // var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
-    // // const cubes = []; // just an array we can use to rotate the cubes
-    // const loaderRight = new THREE.TextureLoader();
-    // loaderRight.load("js/lava_text.jpg", (texture) => {
-    //   const materialRight = new THREE.MeshBasicMaterial({ map: texture });
-    //   const cubeRight = new THREE.Mesh(geometryRight, materialRight);
-    //   cubeRight.position.set(1800, -400, -60000);
-    //   scene.add(cubeRight);
-
-    //   cubeRight.rotation.z =1.5;
-    // });
 
     objects = [];
     objectsCoins = [];
@@ -648,8 +630,20 @@ function Character() {
           break;
       }
     }
-    camera.position.set(camera_x, 700, -1600);
-    camera.lookAt(new THREE.Vector3(camera_x, 650, -10000));
+    // camera.position.set(camera_x, 700, -1600);
+    // camera.lookAt(new THREE.Vector3(camera_x, 650, -10000));
+
+    // if(camera_y >= 650){
+    //   camera_y -=1;
+    // }
+
+    //follow character
+    camera_z_position -= 100;
+    camera_z_look -= 100;
+
+    camera.position.set(camera_x, camera_y, camera_z_position);
+    camera.lookAt(new THREE.Vector3(camera_x, 650, camera_z_look));
+
     window.camera = camera;
 
     // If the character is jumping, update the height of the character.
@@ -720,6 +714,8 @@ function Character() {
         }
       }
     }
+    //move person forward
+    self.element.position.z -= 100;
   };
 
   /**

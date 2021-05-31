@@ -132,17 +132,6 @@ function World() {
       scene.add(cube);
     });
 
-    // var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
-    // const loaderLeft = new THREE.TextureLoader();
-    // loaderLeft.load("js/lava_text.jpg", (texture) => {
-    //   const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
-    //   const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
-    //   cubeLeft.position.set(-1800, -400, -60000);
-    //   scene.add(cubeLeft);
-
-    //   cubeLeft.rotation.z =-1.5;
-    // });
-
     var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
     const loaderLeft = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
@@ -166,18 +155,6 @@ function World() {
       scene.add(cubeRight);
       cubeRight.rotation.z =1.5;
     });
-
-    // var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
-    // // const cubes = []; // just an array we can use to rotate the cubes
-    // const loaderRight = new THREE.TextureLoader();
-    // loaderRight.load("js/lava_text.jpg", (texture) => {
-    //   const materialRight = new THREE.MeshBasicMaterial({ map: texture });
-    //   const cubeRight = new THREE.Mesh(geometryRight, materialRight);
-    //   cubeRight.position.set(1800, -400, -60000);
-    //   scene.add(cubeRight);
-
-    //   cubeRight.rotation.z =1.5;
-    // });
 
     objects = [];
     objectsCoins = [];
