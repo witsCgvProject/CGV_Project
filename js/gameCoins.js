@@ -24,6 +24,7 @@
 };
 var camera_x;
 var deg2Rad = Math.PI / 180;
+var score;
 
 // Make a new world when the page is loaded.
 window.addEventListener("load", function () {
@@ -54,7 +55,7 @@ function World() {
     objectsCoins,
     paused,
     keysAllowed,
-    score,
+    // score,
     level,
     difficulty,
     spikePresenceProb,
@@ -291,9 +292,16 @@ function World() {
         ) {
           fogDistance -= 5000 / levelLength;
         }
-        createRowOfSpikes(-120000, spikePresenceProb, 0.5, maxSpikeSize);
-        createRowOfCoins(-120000, spikePresenceProb, 0.5, maxSpikeSize);
-        scene.fog.far = fogDistance;
+  
+        if (score > 1){
+          // window.alert(score)
+          createRowOfSpikes(-1200, spikePresenceProb, 0.5, maxSpikeSize);
+          createRowOfCoins(-1200, spikePresenceProb, 0.5, maxSpikeSize);
+          scene.fog.far = fogDistance;
+        }
+        // createRowOfSpikes(-120000, spikePresenceProb, 0.5, maxSpikeSize);
+        // createRowOfCoins(-120000, spikePresenceProb, 0.5, maxSpikeSize);
+        // scene.fog.far = fogDistance;
       }
 
       // Move the spikess closer to the character.
@@ -793,8 +801,40 @@ function Spike(x, y, z, s) {
 
   //create box
 
-  var geometry = new THREE.BoxGeometry(1000, 500, 500);
+  // var geometry = new THREE.BoxGeometry(1000, 500, 500);
  // const cubes = []; // just an array we can use to rotate the cubes
+//  if (z < -90000){
+  if (z < -90000){
+  var geometry = new THREE.BoxGeometry(3500, 4000, 100);
+  const loader = new THREE.TextureLoader();
+  loader.load("images/level_up.jpg", (texture) => {
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const cube = new THREE.Mesh(geometry, material);
+    this.mesh.add(cube);
+  });
+
+  this.mesh.add(spikeMiddle);
+  // this.mesh.add(spikeLeft);
+  // this.mesh.add(spikeRight);
+
+  this.mesh.position.set(0, 370*5, z);
+  this.mesh.scale.set(0.65, 0.33, 1);
+  // this.scale = s;
+
+  this.collides = function (minX, maxX, minY, maxY, minZ, maxZ) {
+    var spikeMinX = self.mesh.position.x - this.scale * 250;
+    var spikeMaxX = self.mesh.position.x + this.scale * 250;
+    var spikeMinY = self.mesh.position.y;
+    var spikeMaxY = self.mesh.position.y + this.scale * 1150;
+    var spikeMinZ = self.mesh.position.z - this.scale * 250;
+    var spikeMaxZ = self.mesh.position.z + this.scale * 250;
+    return (spikeMinX <= maxX && spikeMaxX >= minX && spikeMinY <= maxY && spikeMaxY >= minY && spikeMinZ <= maxZ && spikeMaxZ >= minZ );
+  };
+ }
+
+
+ else{
+  var geometry = new THREE.BoxGeometry(1000, 500, 500);
   const loader = new THREE.TextureLoader();
   loader.load("js/metal_text.jpg", (texture) => {
     const material = new THREE.MeshBasicMaterial({ map: texture });
@@ -810,10 +850,6 @@ function Spike(x, y, z, s) {
   this.mesh.scale.set(s, s, s);
   this.scale = s;
 
-  /**
-   * A method that detects whether this spike is colliding with the character,
-   * which is modelled as a box bounded by the given coordinate space.
-   */
   this.collides = function (minX, maxX, minY, maxY, minZ, maxZ) {
     var spikeMinX = self.mesh.position.x - this.scale * 250;
     var spikeMaxX = self.mesh.position.x + this.scale * 250;
@@ -823,6 +859,35 @@ function Spike(x, y, z, s) {
     var spikeMaxZ = self.mesh.position.z + this.scale * 250;
     return (spikeMinX <= maxX && spikeMaxX >= minX && spikeMinY <= maxY && spikeMaxY >= minY && spikeMinZ <= maxZ && spikeMaxZ >= minZ );
   };
+ }
+  // const loader = new THREE.TextureLoader();
+  // loader.load("js/metal_text.jpg", (texture) => {
+  //   const material = new THREE.MeshBasicMaterial({ map: texture });
+  //   const cube = new THREE.Mesh(geometry, material);
+  //   this.mesh.add(cube);
+  // });
+
+  // this.mesh.add(spikeMiddle);
+  // this.mesh.add(spikeLeft);
+  // this.mesh.add(spikeRight);
+
+  // this.mesh.position.set(x, y, z);
+  // this.mesh.scale.set(s, s, s);
+  // this.scale = s;
+
+  /**
+   * A method that detects whether this spike is colliding with the character,
+   * which is modelled as a box bounded by the given coordinate space.
+   */
+  // this.collides = function (minX, maxX, minY, maxY, minZ, maxZ) {
+  //   var spikeMinX = self.mesh.position.x - this.scale * 250;
+  //   var spikeMaxX = self.mesh.position.x + this.scale * 250;
+  //   var spikeMinY = self.mesh.position.y;
+  //   var spikeMaxY = self.mesh.position.y + this.scale * 1150;
+  //   var spikeMinZ = self.mesh.position.z - this.scale * 250;
+  //   var spikeMaxZ = self.mesh.position.z + this.scale * 250;
+  //   return (spikeMinX <= maxX && spikeMaxX >= minX && spikeMinY <= maxY && spikeMaxY >= minY && spikeMinZ <= maxZ && spikeMaxZ >= minZ );
+  // };
 }
 
 function CoinFunc(x, y, z, s) {
