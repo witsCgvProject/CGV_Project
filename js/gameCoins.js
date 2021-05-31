@@ -9,7 +9,7 @@
   blue: 0x1560bd,
   white: 0xd8d0d1,
   black: 0x000000,
-  brown: 0x59332e,
+  brown: 0x4F2412,
   peach: 0xffdab9,
   yellow: 0xffff00,
   olive: 0x556b2f,
@@ -17,6 +17,10 @@
   sand: 0xc2b280,
   brownDark: 0x23190f,
   green: 0x669900,
+  red: 0xFF2B2B,
+  skin: 0xDEAA88,
+  darkBlue:0x1F263B,
+  lightBlue: 0x9CBFE3
 };
 var camera_x;
 var camera_y;
@@ -54,7 +58,6 @@ function World() {
     paused,
     keysAllowed,
     score,
-    level,
     difficulty,
     spikePresenceProb,
     maxSpikeSize,
@@ -119,39 +122,62 @@ function World() {
 
     //Create Running Platform
     var geometry = new THREE.BoxGeometry(8000, 0, 120000);
-    const loader = new THREE.TextureLoader().load( "images/groundBricks.png", (texture) => {
+    const loader = new THREE.TextureLoader().load( "images/23886804.jpg", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const cube = new THREE.Mesh(geometry, material);
       cube.position.set(0, -400, -60000);
       loader.wrapS = THREE.RepeatWrapping;
       loader.wrapT = THREE.RepeatWrapping;
-      loader.repeat.set( 7.5, 65);
+      loader.repeat.set( 3, 1);
       scene.add(cube);
     });
 
-    //create walls
+    // var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
+    // const loaderLeft = new THREE.TextureLoader();
+    // loaderLeft.load("js/lava_text.jpg", (texture) => {
+    //   const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
+    //   const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
+    //   cubeLeft.position.set(-1800, -400, -60000);
+    //   scene.add(cubeLeft);
+
+    //   cubeLeft.rotation.z =-1.5;
+    // });
+
     var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
-    const loaderLeft = new THREE.TextureLoader();
-    loaderLeft.load("js/metal_text.jpg", (texture) => {
+    const loaderLeft = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
       cubeLeft.position.set(-1800, -400, -60000);
+      loaderLeft.wrapS = THREE.RepeatWrapping;
+      loaderLeft.wrapT = THREE.RepeatWrapping;
+      loaderLeft.repeat.set(100, 50);
       scene.add(cubeLeft);
-
       cubeLeft.rotation.z =-1.5;
     });
 
     var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
-    // const cubes = []; // just an array we can use to rotate the cubes
-    const loaderRight = new THREE.TextureLoader();
-    loaderRight.load("js/metal_text.jpg", (texture) => {
+    const loaderRight = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
       cubeRight.position.set(1800, -400, -60000);
+      loaderRight.wrapS = THREE.RepeatWrapping;
+      loaderRight.wrapT = THREE.RepeatWrapping;
+      loaderRight.repeat.set(100, 50);
       scene.add(cubeRight);
-
       cubeRight.rotation.z =1.5;
     });
+
+    // var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
+    // // const cubes = []; // just an array we can use to rotate the cubes
+    // const loaderRight = new THREE.TextureLoader();
+    // loaderRight.load("js/lava_text.jpg", (texture) => {
+    //   const materialRight = new THREE.MeshBasicMaterial({ map: texture });
+    //   const cubeRight = new THREE.Mesh(geometryRight, materialRight);
+    //   cubeRight.position.set(1800, -400, -60000);
+    //   scene.add(cubeRight);
+
+    //   cubeRight.rotation.z =1.5;
+    // });
 
     objects = [];
     objectsCoins = [];
@@ -215,12 +241,10 @@ function World() {
       keysAllowed = {};
     });
 
-    // Initialize the scores, level and difficulty.
+    // Initialize the scores and difficulty.
     score = 0;
     difficulty = 0;
-    level = 1;
     document.getElementById("score").innerHTML = score;
-    document.getElementById("level").innerHTML = level;
     document.getElementById("coins").innerHTML = coinsCollected;
 
     // Begin the rendering loop.
@@ -383,14 +407,6 @@ function World() {
 
       // Update the coins collected.
       document.getElementById("coins").innerHTML = coinsCollected;
-
-      //update level based on score
-      if (score > 1000) {
-        document.getElementById("level").innerHTML = 2;
-      }
-      if (score > 2000) {
-        document.getElementById("level").innerHTML = 3;
-      }
     }
 
     // Render the page and repeat.
@@ -500,10 +516,10 @@ function Character() {
   var self = this;
 
   // Character defaults that don't change throughout the game.
-  this.skinColor = Colors.brown;
-  this.hairColor = Colors.black;
-  this.shirtColor = Colors.yellow;
-  this.shortsColor = Colors.olive;
+  this.skinColor = Colors.skin;
+  this.hairColor = Colors.brown;
+  this.shirtColor = Colors.lightBlue;
+  this.shortsColor = Colors.blue;
   this.jumpDuration = 0.6;
   this.jumpHeight = 1000;
 
@@ -788,7 +804,7 @@ function Spike(x, y, z, s) {
   var geometry = new THREE.BoxGeometry(1000, 500, 500);
  // const cubes = []; // just an array we can use to rotate the cubes
   const loader = new THREE.TextureLoader();
-  loader.load("js/metal_text.jpg", (texture) => {
+  loader.load("js/future_text.jpg", (texture) => {
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const cube = new THREE.Mesh(geometry, material);
     this.mesh.add(cube);
@@ -948,7 +964,7 @@ function createBox(dx, dy, dz, color, x, y, z, notFlatShading) {
 function createCylinder( radiusTop, radiusBottom, height, radialSegments, color, x, y, z) {
 
   var geom = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, radialSegments);
-  const texture = new THREE.TextureLoader().load( "js/metal_text.jpg" );
+  const texture = new THREE.TextureLoader().load( "js/future_text.jpg" );
   const mat = new THREE.MeshStandardMaterial({map: texture})
     var cylinder = new THREE.Mesh(geom, mat);
     cylinder.castShadow = true;
