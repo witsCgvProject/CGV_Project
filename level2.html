@@ -4,7 +4,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet">
 		<!-- <script type="text/javascript" src="js/three.min.js"></script> -->
 		<script type="text/javascript" src="js/three.js"></script>
-        <script type="text/javascript" src="js/level2.js"></script>
+        <script type="text/javascript" src="js/gameCoins.js"></script>
 		<link href="style.css" rel="stylesheet">
 	</head>
 	<body>
@@ -15,18 +15,20 @@
 			<div class="stat">
 				<label>Score</label>
 				<p id="score">0</p>
+				<label>Coins</label>
+				<p id="coins">0</p>
 			</div>
 			<div class="stat">
 				<label>Level</label>
-				<p id="level">2</p>
+				<p id="level">1</p>
 			</div>
-			<div>
+			<div class="level">
 				<button onclick="level1()">Level 1</button>
-				<br><button >Level 2</button>
+				<br><button>Level 2</button>
 				<br><button onclick="level3()">Level 3</button>
 			</div>
 
-			<table id="controls">
+			<table class="instructions" id="controls">
 			  	<tr>
 			    	<td>Up:</td>
 			    	<td>Jump</td>
@@ -44,7 +46,7 @@
 			    	<td>Pause</td>
 			  	</tr>
 			</table>
-			<table id="ranks"></table>
+			<!-- <table id="ranks"></table> -->
 			<div class="animate-flicker" id="variable-content">Press any button to begin</div>
 		</div>
 		<div id="world"></div>
@@ -54,10 +56,10 @@
 		<script>
 			function level1() {
 				window.location = "index.html"; 
-			}	
-            function level3() {
+			}
+			function level3() {
 				window.location = "level3.html"; 
-			}	
+			}		
 		</script>
 
 	</body>

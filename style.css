@@ -36,6 +36,19 @@ html, body {
     text-align:center;
 }
 
+.instructions {
+    z-index:100;
+    position:relative;
+    text-align:center;
+}
+
+.level {
+    z-index:100;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+}
+
 .game-title .title {
     font-family: 'Playfair Display', serif;
     font-weight:700;
@@ -105,6 +118,15 @@ td:nth-child(2) {
     float:left;
 }
 
+.stat tr{
+    text-align:left;
+    text-transform:uppercase;
+    letter-spacing:0.25em;
+    font-size:0.8em;
+    width:100%;
+    float:left;
+}
+
 #variable-content {
     margin-top:2em;
     letter-spacing:0.1em;
@@ -144,4 +166,7 @@ td:nth-child(2) {
    -moz-animation: flickerAnimation 1.5s infinite;
    -o-animation: flickerAnimation 1.5s infinite;
     animation: flickerAnimation 1.5s infinite;
+    z-index:100;
+    position:relative;
+    text-align:center;
 }
