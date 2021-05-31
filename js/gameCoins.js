@@ -785,7 +785,7 @@ function Spike(x, y, z, s) {
   var geometry = new THREE.BoxGeometry(1000, 500, 500);
  // const cubes = []; // just an array we can use to rotate the cubes
   const loader = new THREE.TextureLoader();
-  loader.load("js/metal_text.jpg", (texture) => {
+  loader.load("js/future_text.jpg", (texture) => {
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const cube = new THREE.Mesh(geometry, material);
     this.mesh.add(cube);
@@ -945,7 +945,7 @@ function createBox(dx, dy, dz, color, x, y, z, notFlatShading) {
 function createCylinder( radiusTop, radiusBottom, height, radialSegments, color, x, y, z) {
 
   var geom = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, radialSegments);
-  const texture = new THREE.TextureLoader().load( "js/metal_text.jpg" );
+  const texture = new THREE.TextureLoader().load( "js/future_text.jpg" );
   const mat = new THREE.MeshStandardMaterial({map: texture})
     var cylinder = new THREE.Mesh(geom, mat);
     cylinder.castShadow = true;
