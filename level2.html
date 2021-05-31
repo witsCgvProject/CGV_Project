@@ -4,7 +4,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet">
 		<!-- <script type="text/javascript" src="js/three.min.js"></script> -->
 		<script type="text/javascript" src="js/three.js"></script>
-        <script type="text/javascript" src="js/gameCoins.js"></script>
+        <script type="text/javascript" src="js/level2.js"></script>
 		<link href="style.css" rel="stylesheet">
 	</head>
 	<body>
@@ -18,14 +18,10 @@
 				<label>Coins</label>
 				<p id="coins">0</p>
 			</div>
-			<div class="stat">
-				<label>Level</label>
-				<p id="level">1</p>
-			</div>
 			<div class="level">
-				<button onclick="level1()">Level 1</button>
-				<br><button>Level 2</button>
-				<br><button onclick="level3()">Level 3</button>
+				<button onclick="level1()" class="button">Level 1</button>
+				<br><button style="background-color: green;" class="button">Level 2</button>
+				<br><button onclick="level3()" class="button">Level 3</button>
 			</div>
 
 			<table class="instructions" id="controls">
@@ -61,6 +57,5 @@
 				window.location = "level3.html"; 
 			}		
 		</script>
-
 	</body>
 </html>
