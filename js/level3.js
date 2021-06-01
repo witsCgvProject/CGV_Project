@@ -1,10 +1,11 @@
 // Man on a mission
 // A simple yet fun game 
+// created by Yaakov, Moshe, Shlomo, Aharon and Ioanni
 
-/**
- * Constants used in this game.
- */
- var Colors = {
+
+ // Global Variable Initialisation
+ 
+ var Colors = { //colours used for the textures
   cherry: 0xe35d6a,
   blue: 0x1560bd,
   white: 0xd8d0d1,
@@ -22,6 +23,8 @@
   darkBlue:0x1F263B,
   lightBlue: 0x9CBFE3
 };
+
+// variables used for changing camera position to follow character
 var camera_x;
 var camera_y;
 var camera_z_position;
@@ -33,15 +36,8 @@ window.addEventListener("load", function () {
   new World();
 });
 
-/*
- * THE WORLD
- */
+//This function builds the world and starts the game loop
 
-/**
- * A class of which the world is an instance. Initializes the game
- * and contains the main game loop.
- *
- */
 function World() {
   // Explicit binding of this even in changing contexts.
   var self = this;
@@ -69,10 +65,8 @@ function World() {
   // Initialize the world.
   init();
 
-  /**
-   * Builds the renderer, scene, lights, camera, and the character,
-   * then begins the rendering loop.
-   */
+  // Builds the renderer, scene, lights, camera, and the character, then begins the rendering loop.
+  
   function init() {
     // Locate where the world is to be located on the screen.
     camera_x=0;
@@ -132,6 +126,7 @@ function World() {
       scene.add(cube);
     });
 
+     //Create Left Wall 
     var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
     const loaderLeft = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
@@ -144,6 +139,7 @@ function World() {
       cubeLeft.rotation.z =-1.5;
     });
 
+    //Create Right Wall 
     var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
     const loaderRight = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
@@ -156,6 +152,7 @@ function World() {
       cubeRight.rotation.z =1.5;
     });
 
+    //initialise the coin and spiike objects
     objects = [];
     objectsCoins = [];
     spikePresenceProb = 0.2;
@@ -228,9 +225,7 @@ function World() {
     loop();
   }
 
-  /**
-   * The main animation loop.
-   */
+  //still to be done - change difficulty using score
   function loop() {
     // Update the game.
     if (!paused) {
@@ -327,53 +322,6 @@ function World() {
         ];
         var rankIndex = Math.floor(score / 15000);
 
-        // If applicable, display the next achievable rank.
-        if (score < 124000) {
-          var nextRankRow = table.insertRow(0);
-          nextRankRow.insertCell(0).innerHTML =
-            rankIndex <= 5
-              ? "".concat((rankIndex + 1) * 15, "k-", (rankIndex + 2) * 15, "k")
-              : rankIndex == 6
-              ? "105k-124k"
-              : "124k+";
-          nextRankRow.insertCell(1).innerHTML =
-            "*Score within this range to earn the next rank*";
-        }
-
-        // Display the achieved rank.
-        var achievedRankRow = table.insertRow(0);
-        achievedRankRow.insertCell(0).innerHTML =
-          rankIndex <= 6
-            ? "".concat(rankIndex * 15, "k-", (rankIndex + 1) * 15, "k").bold()
-            : score < 124000
-            ? "105k-124k".bold()
-            : "124k+".bold();
-        achievedRankRow.insertCell(1).innerHTML =
-          rankIndex <= 6
-            ? "Congrats! You're a ".concat(rankNames[rankIndex], "!").bold()
-            : score < 124000
-            ? "Congrats! You're a ".concat(rankNames[7], "!").bold()
-            : "Congrats! You exceeded the creator's high score of 123790 and beat the game!".bold();
-
-        // Display all ranks lower than the achieved rank.
-        if (score >= 120000) {
-          rankIndex = 7;
-        }
-        for (var i = 0; i < rankIndex; i++) {
-          var row = table.insertRow(i);
-          row.insertCell(0).innerHTML = "".concat(
-            i * 15,
-            "k-",
-            (i + 1) * 15,
-            "k"
-          );
-          row.insertCell(1).innerHTML = rankNames[i];
-        }
-        if (score > 124000) {
-          var row = table.insertRow(7);
-          row.insertCell(0).innerHTML = "105k-124k";
-          row.insertCell(1).innerHTML = rankNames[7];
-        }
       }
 
       
@@ -391,9 +339,8 @@ function World() {
     requestAnimationFrame(loop);
   }
 
-  /**
-   * A method called when window is resized.
-   */
+  // A method called when window is resized.
+
   function handleWindowResize() {
     renderer.setSize(element.clientWidth, element.clientHeight);
     camera.aspect = element.clientWidth / element.clientHeight;
@@ -475,7 +422,7 @@ function World() {
     return false;
   }
   
-}//enf of world function
+}//end of world function
 
 /**
  *
