@@ -274,8 +274,8 @@ function World() {
   
         if (score > 1){
           // window.alert(score)
-          createRowOfSpikes(-1200, spikePresenceProb, 0.5, maxSpikeSize);
-          createRowOfCoins(-1200, spikePresenceProb, 0.5, maxSpikeSize);
+          createRowOfSpikes(-125000, spikePresenceProb, 0.5, maxSpikeSize);
+          createRowOfCoins(-119500, spikePresenceProb, 0.5, maxSpikeSize);
           scene.fog.far = fogDistance;
         }
         // createRowOfSpikes(-120000, spikePresenceProb, 0.5, maxSpikeSize);
@@ -310,7 +310,13 @@ function World() {
         
         console.log(coinsCollected)
        }
-
+       //end game at a certain score that relates to the end of the road
+       if(score==11540){
+        console.log(character.element.position.z)
+        gameOver = true;
+        paused = true;
+        
+       }
       // Check for collisions between the character and objects.
       if (collisionsDetected()) {
         gameOver = true;
@@ -424,7 +430,7 @@ function World() {
       var randomNumber = Math.random();
       if (randomNumber < probability) {
         var scale = 0.70
-        var spike = new Spike(lane * 800, -400, position, scale);
+        var spike = new Spike(lane * 800, -400, position, scale, score);
         objects.push(spike);
         scene.add(spike.mesh);
 
@@ -771,7 +777,7 @@ function Character() {
  * A collidable spike in the game positioned at X, Y, Z in the scene and with
  * scale S.
  */
-function Spike(x, y, z, s) {
+function Spike(x, y, z, s,score) {
   // Explicit binding.
   var self = this;
 
@@ -784,12 +790,8 @@ function Spike(x, y, z, s) {
   var spikeLeft = createCylinder(0, 150, 750, 64, Colors.grey, 0, 500, 0);
   var spikeRight = createCylinder(0, 150, 750, 64, Colors.grey, -250, 500, 0);
 
-  //create box
 
-  // var geometry = new THREE.BoxGeometry(1000, 500, 500);
- // const cubes = []; // just an array we can use to rotate the cubes
-//  if (z < -90000){
-  if (z < -90000){
+  if (score>11100){
   var geometry = new THREE.BoxGeometry(3500, 4000, 100);
   const loader = new THREE.TextureLoader();
   loader.load("images/level_up.jpg", (texture) => {
@@ -845,34 +847,7 @@ function Spike(x, y, z, s) {
     return (spikeMinX <= maxX && spikeMaxX >= minX && spikeMinY <= maxY && spikeMaxY >= minY && spikeMinZ <= maxZ && spikeMaxZ >= minZ );
   };
  }
-  // const loader = new THREE.TextureLoader();
-  // loader.load("js/metal_text.jpg", (texture) => {
-  //   const material = new THREE.MeshBasicMaterial({ map: texture });
-  //   const cube = new THREE.Mesh(geometry, material);
-  //   this.mesh.add(cube);
-  // });
 
-  // this.mesh.add(spikeMiddle);
-  // this.mesh.add(spikeLeft);
-  // this.mesh.add(spikeRight);
-
-  // this.mesh.position.set(x, y, z);
-  // this.mesh.scale.set(s, s, s);
-  // this.scale = s;
-
-  /**
-   * A method that detects whether this spike is colliding with the character,
-   * which is modelled as a box bounded by the given coordinate space.
-   */
-  // this.collides = function (minX, maxX, minY, maxY, minZ, maxZ) {
-  //   var spikeMinX = self.mesh.position.x - this.scale * 250;
-  //   var spikeMaxX = self.mesh.position.x + this.scale * 250;
-  //   var spikeMinY = self.mesh.position.y;
-  //   var spikeMaxY = self.mesh.position.y + this.scale * 1150;
-  //   var spikeMinZ = self.mesh.position.z - this.scale * 250;
-  //   var spikeMaxZ = self.mesh.position.z + this.scale * 250;
-  //   return (spikeMinX <= maxX && spikeMaxX >= minX && spikeMinY <= maxY && spikeMaxY >= minY && spikeMinZ <= maxZ && spikeMaxZ >= minZ );
-  // };
 }
 
 function CoinFunc(x, y, z, s) {
