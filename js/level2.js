@@ -122,36 +122,36 @@ function World() {
 
     //Create Running Platform
     var geometry = new THREE.BoxGeometry(8000, 0, 120000);
-    const loader = new THREE.TextureLoader().load( "images/23886804.jpg", (texture) => {
+    const loader = new THREE.TextureLoader().load( "images/groundBricks.png", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const cube = new THREE.Mesh(geometry, material);
       cube.position.set(0, -400, -60000);
       loader.wrapS = THREE.RepeatWrapping;
       loader.wrapT = THREE.RepeatWrapping;
-      loader.repeat.set( 3, 1);
+      loader.repeat.set(7.5, 80);
       scene.add(cube);
     });
 
     var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
-    const loaderLeft = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
+    const loaderLeft = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
       cubeLeft.position.set(-1800, -400, -60000);
       loaderLeft.wrapS = THREE.RepeatWrapping;
       loaderLeft.wrapT = THREE.RepeatWrapping;
-      loaderLeft.repeat.set(100, 50);
+      loaderLeft.repeat.set(1.5, 50);
       scene.add(cubeLeft);
       cubeLeft.rotation.z =-1.5;
     });
 
     var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
-    const loaderRight = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
+    const loaderRight = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
       cubeRight.position.set(1800, -400, -60000);
       loaderRight.wrapS = THREE.RepeatWrapping;
       loaderRight.wrapT = THREE.RepeatWrapping;
-      loaderRight.repeat.set(100, 50);
+      loaderRight.repeat.set(1.5, 50);
       scene.add(cubeRight);
       cubeRight.rotation.z =1.5;
     });
