@@ -134,13 +134,13 @@ function World() {
     });
 
     var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
-    const loaderLeft = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
+    const loaderLeft = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
       cubeLeft.position.set(-1800, -400, -60000);
       loaderLeft.wrapS = THREE.RepeatWrapping;
       loaderLeft.wrapT = THREE.RepeatWrapping;
-      loaderLeft.repeat.set(100, 50);
+      loaderLeft.repeat.set(1.5, 50);
       scene.add(cubeLeft);
       cubeLeft.rotation.z =-1.5;
     });
