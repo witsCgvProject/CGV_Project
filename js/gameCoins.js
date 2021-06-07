@@ -49,6 +49,10 @@ function World() {
 
   // Scoped variables in this world.
   var element,
+    audio,
+    audio2,
+    source,
+    source2,
     scene,
     camera,
     character,
@@ -81,6 +85,18 @@ function World() {
     camera_z_position = -1600;
     camera_z_look = -100000;
     element = document.getElementById("world");
+
+    //initialize sound for spikes
+    // audio = document.createElement('audio');
+    // source = document.createElement('source');
+    // source.src = 'images/sounds/WoodCrashesDistant FS022705.mp3';
+    // audio.appendChild(source);
+
+    //initialize sound for coins
+    // source = document.createElement('source');
+    // source.src = 'images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3';
+    // audio.appendChild(source);
+    // audio.play();
 
     // Initialize the renderer.
     renderer = new THREE.WebGLRenderer({
@@ -120,6 +136,20 @@ function World() {
     // Initialize the character and add it to the scene.
     character = new Character();
     scene.add(character.element);
+
+    // //creating sound for coin
+    // const listener = new
+    // Three.AudioListener();
+    // camera.add(listener);
+    // const sound = new THREE.PositionalAudio(listener);
+    // const audioLoader = new THREE.AudioLoader();
+    // audioLoader.load('images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3')
+    
+    // function(buffer){
+    //   sound.setBuffer(buffer);
+    //   sound.setRefDistance(20);
+
+    // }
 
     //Create Running Platform
     var geometry = new THREE.BoxGeometry(8000, 0, 120000);
@@ -307,6 +337,12 @@ function World() {
       // Check for collisions between the character and coin.
       if (collisionsDetectedCoin()) {
         coinsCollected+=1;
+        //adds sound
+        audio = document.createElement('audio');
+        source = document.createElement('source');
+        source.src = 'images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3';
+        audio.appendChild(source);
+        audio.play();
         
         console.log(coinsCollected)
        }
@@ -324,6 +360,13 @@ function World() {
         document.addEventListener("keydown", function (e) {
           if (e.keyCode == 40) document.location.reload(true);
         });
+        //Adds crash when character hits the obstacle
+        audio = document.createElement('audio');
+        source = document.createElement('source');
+        source.src = 'images/sounds/WoodCrashesDistant FS022705.mp3';
+        audio.appendChild(source);
+        audio.play();
+
         var variableContent = document.getElementById("variable-content");
         variableContent.style.visibility = "visible";
         variableContent.innerHTML =
@@ -869,6 +912,7 @@ function CoinFunc(x, y, z, s) {
   coin.rotation.y = 1.5
 
   this.mesh.add(coin)
+  //this.mesh.add(sound)
 
   this.mesh.position.set(x, y, z);
   this.mesh.scale.set(s, s, s);
