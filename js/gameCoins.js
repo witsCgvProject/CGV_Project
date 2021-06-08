@@ -26,11 +26,6 @@ var camera_x;
 var camera_y;
 var camera_z_position;
 var camera_z_look;
-var right;
-var left;
-var rightClick;
-var leftClick
-var center;
 var deg2Rad = Math.PI / 180;
 var score;
 
@@ -54,10 +49,6 @@ function World() {
 
   // Scoped variables in this world.
   var element,
-    audio,
-    audio2,
-    source,
-    source2,
     scene,
     camera,
     character,
@@ -89,24 +80,7 @@ function World() {
     camera_y=700;
     camera_z_position = -1600;
     camera_z_look = -100000;
-    right = false;
-    left = false;
-    center = true;
-    rightClick = false;
-    leftClick = false;
     element = document.getElementById("world");
-
-    //initialize sound for spikes
-    // audio = document.createElement('audio');
-    // source = document.createElement('source');
-    // source.src = 'images/sounds/WoodCrashesDistant FS022705.mp3';
-    // audio.appendChild(source);
-
-    //initialize sound for coins
-    // source = document.createElement('source');
-    // source.src = 'images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3';
-    // audio.appendChild(source);
-    // audio.play();
 
     // Initialize the renderer.
     renderer = new THREE.WebGLRenderer({
@@ -147,20 +121,6 @@ function World() {
     character = new Character();
     scene.add(character.element);
 
-    // //creating sound for coin
-    // const listener = new
-    // Three.AudioListener();
-    // camera.add(listener);
-    // const sound = new THREE.PositionalAudio(listener);
-    // const audioLoader = new THREE.AudioLoader();
-    // audioLoader.load('images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3')
-    
-    // function(buffer){
-    //   sound.setBuffer(buffer);
-    //   sound.setRefDistance(20);
-
-    // }
-
     //Create Running Platform
     var geometry = new THREE.BoxGeometry(8000, 0, 120000);
     const loader = new THREE.TextureLoader().load( "images/23886804.jpg", (texture) => {
@@ -199,7 +159,7 @@ function World() {
 
     objects = [];
     objectsCoins = [];
-    spikePresenceProb = 0.2;
+    spikePresenceProb = 0.135;
     maxSpikeSize = 0.5;
     for (var i = 10; i < 40; i++) {
       createRowOfSpikes(i * -3000, spikePresenceProb, 0.5, maxSpikeSize);
@@ -277,40 +237,85 @@ function World() {
     if (!paused) {
       // Add more spikes and increase the difficulty.
       if (objects[objects.length - 1].mesh.position.z % 3000 == 0) {
-        difficulty += 1;
-        var levelLength = 100;
-        if (difficulty % levelLength == 0) {
-          var level = difficulty / levelLength;
-          switch (level) {
-            case 1:
-              spikePresenceProb = 0.35;
-              break;
-            case 2:
-              spikePresenceProb = 0.37;
-              break;
-            case 3:
-              spikePresenceProb = 0.39;
-              break;
-            case 4:
-              spikePresenceProb = 0.41;
-              break;
-            case 5:
-              spikePresenceProb = 0.43;
-              break;
-            case 6:
-              spikePresenceProb = 0.45;
-              break;
+        if (score >= 3000 && score < 4000){
+          spikePresenceProb = 0.15
+        }
+        else if (score >= 1000 && score < 2000){
+          spikePresenceProb = 0.165
+        }
+        else if (score >= 2000 && score < 3000){
+          spikePresenceProb = 0.18
+        }
+        else if (score >= 3000 && score < 4000){
+          spikePresenceProb = 0.195
+        }
+        else if (score >= 4000 && score < 5000){
+          spikePresenceProb = 0.21
+        }
+        else if (score >= 5000 && score < 6000){
+          spikePresenceProb = 0.225
+        }
+        else if (score >= 6000 && score < 7000){
+          spikePresenceProb = 0.24
+        }
+        else if (score >= 7000 && score < 8000){
+          spikePresenceProb = 0.255
+        }
+        else if (score >= 8000 && score < 9000){
+          spikePresenceProb = 0.27
+        }
+        else if (score >= 9000 && score < 10000){
+          spikePresenceProb = 0.285
+        }
+        else if (score >= 10000 && score < 11000){
+          spikePresenceProb = 0.3
+        }
+        else if (score >= 11000 && score < 12000){
+          spikePresenceProb = 0.315
+        }
+        else if (score >= 12000 && score < 13000){
+          spikePresenceProb = 0.33
+        }
+        else if (score >= 13000 && score < 14000){
+          spikePresenceProb = 0.345
+        }
+        else {
+          spikePresenceProb = 0.0001
+        }
+        // difficulty += 1;
+        // var levelLength = 100;
+        // if (difficulty % levelLength == 0) {
+        //   var level = difficulty / levelLength;
+        //   switch (level) {
+        //     case 1:
+        //       spikePresenceProb = 0.35;
+        //       break;
+        //     case 2:
+        //       spikePresenceProb = 0.4;
+        //       break;
+        //     case 3:
+        //       spikePresenceProb = 0.45;
+        //       break;
+        //     case 4:
+        //       spikePresenceProb = 0.5;
+        //       break;
+        //     case 5:
+        //       spikePresenceProb = 0.55;
+        //       break;
+        //     case 6:
+        //       spikePresenceProb = 0.6;
+        //       break;
 
-          }
-        }
-        if (difficulty >= 5 * levelLength && difficulty < 6 * levelLength) {
-          fogDistance -= 25000 / levelLength;
-        } else if (
-          difficulty >= 8 * levelLength &&
-          difficulty < 9 * levelLength
-        ) {
-          fogDistance -= 5000 / levelLength;
-        }
+        //   }
+        // }
+        // if (difficulty >= 5 * levelLength && difficulty < 6 * levelLength) {
+        //   fogDistance -= 25000 / levelLength;
+        // } else if (
+        //   difficulty >= 8 * levelLength &&
+        //   difficulty < 9 * levelLength
+        // ) {
+        //   fogDistance -= 5000 / levelLength;
+        // }
   
         if (score > 1){
           // window.alert(score)
@@ -347,12 +352,6 @@ function World() {
       // Check for collisions between the character and coin.
       if (collisionsDetectedCoin()) {
         coinsCollected+=1;
-        //adds sound
-        audio = document.createElement('audio');
-        source = document.createElement('source');
-        source.src = 'images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3';
-        audio.appendChild(source);
-        audio.play();
         
         console.log(coinsCollected)
        }
@@ -370,13 +369,6 @@ function World() {
         document.addEventListener("keydown", function (e) {
           if (e.keyCode == 40) document.location.reload(true);
         });
-        //Adds crash when character hits the obstacle
-        audio = document.createElement('audio');
-        source = document.createElement('source');
-        source.src = 'images/sounds/WoodCrashesDistant FS022705.mp3';
-        audio.appendChild(source);
-        audio.play();
-
         var variableContent = document.getElementById("variable-content");
         variableContent.style.visibility = "visible";
         variableContent.innerHTML =
@@ -682,9 +674,7 @@ function Character() {
         case "left":
           if (self.currentLane != -1) {
             self.isSwitchingLeft = true;
-            left = true;
-            leftClick = true;
-            // camera_x -= 750;
+            camera_x -= 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -692,9 +682,7 @@ function Character() {
         case "right":
           if (self.currentLane != 1) {
             self.isSwitchingRight = true;
-            right = true;
-            rightClick = true;
-            // camera_x += 750;
+            camera_x += 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -711,64 +699,6 @@ function Character() {
     //follow character
     camera_z_position -= 80;
     camera_z_look -= 80;
-
-    if(right){
-      if(center){
-        if(camera_x < 750){
-          camera_x +=187.5;
-        }
-        else{
-          right = false;
-          center = false;
-        }
-      }
-      else{ //currently at left lane
-        if(rightClick){ //right click
-          if(camera_x == -750){ //begining of left lane
-            camera_x +=187.5;
-            rightClick = false;
-          }
-        }
-        else{
-          if(camera_x < 0){ // no right click
-            camera_x +=187.5;
-          }
-          else{
-            right = false;
-            center = true;
-          }
-        } 
-      }
-    }
-
-    if(left){
-      if(center){
-        if(camera_x > -750){
-          camera_x -=187.5;
-        }
-        else{
-          left = false;
-          center = false;
-        }
-      }
-      else{ //currently at right lane
-        if(leftClick){ //right click
-          if(camera_x == 750){ //begining of right lane
-            camera_x -=187.5;
-            leftClick = false;
-          }
-        }
-        else{
-          if(camera_x > 0){ // no right click
-            camera_x -=187.5;
-          }
-          else{
-            left = false;
-            center = true;
-          }
-        } 
-      }
-    }
 
     camera.position.set(camera_x, camera_y, camera_z_position);
     camera.lookAt(new THREE.Vector3(camera_x, 650, camera_z_look));
@@ -906,7 +836,7 @@ function Spike(x, y, z, s,score) {
   var spikeRight = createCylinder(0, 150, 750, 64, Colors.grey, -250, 500, 0);
 
 
-  if (score>11100){
+  if (score>13000){
   var geometry = new THREE.BoxGeometry(3500, 4000, 100);
   const loader = new THREE.TextureLoader();
   loader.load("images/level_up.jpg", (texture) => {
@@ -984,7 +914,6 @@ function CoinFunc(x, y, z, s) {
   coin.rotation.y = 1.5
 
   this.mesh.add(coin)
-  //this.mesh.add(sound)
 
   this.mesh.position.set(x, y, z);
   this.mesh.scale.set(s, s, s);
