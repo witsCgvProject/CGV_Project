@@ -26,6 +26,11 @@ var camera_x;
 var camera_y;
 var camera_z_position;
 var camera_z_look;
+var right;
+var left;
+var rightClick;
+var leftClick
+var center;
 var deg2Rad = Math.PI / 180;
 var score;
 
@@ -80,6 +85,11 @@ function World() {
     camera_y=700;
     camera_z_position = -1600;
     camera_z_look = -100000;
+    right = false;
+    left = false;
+    center = true;
+    rightClick = false;
+    leftClick = false;
     element = document.getElementById("world");
 
     // Initialize the renderer.
@@ -629,7 +639,9 @@ function Character() {
         case "left":
           if (self.currentLane != -1) {
             self.isSwitchingLeft = true;
-            camera_x -= 750;
+            left = true;
+            leftClick = true;
+            // camera_x -= 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -637,7 +649,9 @@ function Character() {
         case "right":
           if (self.currentLane != 1) {
             self.isSwitchingRight = true;
-            camera_x += 750;
+            right = true;
+            rightClick = true;
+            // camera_x += 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -654,6 +668,64 @@ function Character() {
     //follow character
     camera_z_position -= 100;
     camera_z_look -= 100;
+
+    if(right){
+      if(center){
+        if(camera_x < 750){
+          camera_x +=187.5;
+        }
+        else{
+          right = false;
+          center = false;
+        }
+      }
+      else{ //currently at left lane
+        if(rightClick){ //right click
+          if(camera_x == -750){ //begining of left lane
+            camera_x +=187.5;
+            rightClick = false;
+          }
+        }
+        else{
+          if(camera_x < 0){ // no right click
+            camera_x +=187.5;
+          }
+          else{
+            right = false;
+            center = true;
+          }
+        } 
+      }
+    }
+
+    if(left){
+      if(center){
+        if(camera_x > -750){
+          camera_x -=187.5;
+        }
+        else{
+          left = false;
+          center = false;
+        }
+      }
+      else{ //currently at right lane
+        if(leftClick){ //right click
+          if(camera_x == 750){ //begining of right lane
+            camera_x -=187.5;
+            leftClick = false;
+          }
+        }
+        else{
+          if(camera_x > 0){ // no right click
+            camera_x -=187.5;
+          }
+          else{
+            left = false;
+            center = true;
+          }
+        } 
+      }
+    }
 
     camera.position.set(camera_x, camera_y, camera_z_position);
     camera.lookAt(new THREE.Vector3(camera_x, 650, camera_z_look));
