@@ -268,12 +268,12 @@ function World() {
         else if (score >= 11000 && score < 12000){
           spikePresenceProb = 0.315
         }
-        else if (score >= 12000 && score < 13000){
-          spikePresenceProb = 0.33
-        }
-        else if (score >= 13000 && score < 14000){
-          spikePresenceProb = 0.345
-        }
+        // else if (score >= 12000 && score < 13000){
+        //   spikePresenceProb = 0.33
+        // }
+        // else if (score >= 13000 && score < 14000){
+        //   spikePresenceProb = 0.345
+        // }
         else {
           spikePresenceProb = 0.0001
         }
