@@ -1,10 +1,10 @@
 // Man on a mission
-// A simple yet fun game 
+// A simple yet fun game
 // created by Yaakov, Moshe, Shlomo, Aharon and Ioanni
 
 
  // Global Variable Initialisation
- 
+
  var Colors = { //colours used for the textures
   cherry: 0xe35d6a,
   blue: 0x1560bd,
@@ -29,6 +29,11 @@ var camera_x;
 var camera_y;
 var camera_z_position;
 var camera_z_look;
+var right;
+var left;
+var rightClick;
+var leftClick
+var center;
 var deg2Rad = Math.PI / 180;
 
 // Make a new world when the page is loaded.
@@ -60,19 +65,24 @@ function World() {
     fogDistance,
     gameOver;
     var coinsCollected = 0;
-    
+
 
   // Initialize the world.
   init();
 
   // Builds the renderer, scene, lights, camera, and the character, then begins the rendering loop.
-  
+
   function init() {
     // Locate where the world is to be located on the screen.
     camera_x=0;
     camera_y=700;
     camera_z_position = -1600;
     camera_z_look = -100000;
+    right = false;
+    left = false;
+    center = true;
+    rightClick = false;
+    leftClick = false;
     element = document.getElementById("world");
 
     // Initialize the renderer.
@@ -97,7 +107,7 @@ function World() {
       1,
       120000
     );
-    
+
     //init camera for first time
     camera.position.set(0, camera_y, camera_z_position);
     camera.lookAt(new THREE.Vector3(0, 650, camera_z_look));
@@ -126,7 +136,7 @@ function World() {
       scene.add(cube);
     });
 
-     //Create Left Wall 
+     //Create Left Wall
     var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
     const loaderLeft = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
@@ -139,7 +149,7 @@ function World() {
       cubeLeft.rotation.z =-1.5;
     });
 
-    //Create Right Wall 
+    //Create Right Wall
     var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
     const loaderRight = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
@@ -294,7 +304,7 @@ function World() {
       // Check for collisions between the character and coin.
       if (collisionsDetectedCoin()) {
         coinsCollected+=1;
-        
+
         console.log(coinsCollected)
        }
 
@@ -324,7 +334,7 @@ function World() {
 
       }
 
-      
+
 
       // Update the scores.
       score += 10;
@@ -379,7 +389,7 @@ function World() {
         var coin = new CoinFunc(lane * 800, -400, position, scaleCoin)
         objectsCoins.push(coin)
         scene.add(coin.mesh)
-        
+
       }
     }
   }
@@ -421,7 +431,7 @@ function World() {
 
     return false;
   }
-  
+
 }//end of world function
 
 /**
@@ -562,7 +572,9 @@ function Character() {
         case "left":
           if (self.currentLane != -1) {
             self.isSwitchingLeft = true;
-            camera_x -= 750;
+            left = true;
+            leftClick = true;
+            // camera_x -= 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -570,7 +582,9 @@ function Character() {
         case "right":
           if (self.currentLane != 1) {
             self.isSwitchingRight = true;
-            camera_x += 750;
+            right = true;
+            rightClick = true;
+            // camera_x += 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -587,6 +601,64 @@ function Character() {
     //follow character
     camera_z_position -= 100;
     camera_z_look -= 100;
+
+    if(right){
+      if(center){
+        if(camera_x < 750){
+          camera_x +=187.5;
+        }
+        else{
+          right = false;
+          center = false;
+        }
+      }
+      else{ //currently at left lane
+        if(rightClick){ //right click
+          if(camera_x == -750){ //begining of left lane
+            camera_x +=187.5;
+            rightClick = false;
+          }
+        }
+        else{
+          if(camera_x < 0){ // no right click
+            camera_x +=187.5;
+          }
+          else{
+            right = false;
+            center = true;
+          }
+        }
+      }
+    }
+
+    if(left){
+      if(center){
+        if(camera_x > -750){
+          camera_x -=187.5;
+        }
+        else{
+          left = false;
+          center = false;
+        }
+      }
+      else{ //currently at right lane
+        if(leftClick){ //right click
+          if(camera_x == 750){ //begining of right lane
+            camera_x -=187.5;
+            leftClick = false;
+          }
+        }
+        else{
+          if(camera_x > 0){ // no right click
+            camera_x -=187.5;
+          }
+          else{
+            left = false;
+            center = true;
+          }
+        }
+      }
+    }
 
     camera.position.set(camera_x, camera_y, camera_z_position);
     camera.lookAt(new THREE.Vector3(camera_x, 650, camera_z_look));

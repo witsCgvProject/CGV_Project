@@ -29,6 +29,11 @@ var camera_x;
 var camera_y;
 var camera_z_position;
 var camera_z_look;
+var right;
+var left;
+var rightClick;
+var leftClick
+var center;
 var deg2Rad = Math.PI / 180;
 
 // Make a new world when the page is loaded.
@@ -73,6 +78,11 @@ function World() {
     camera_y=700;
     camera_z_position = -1600;
     camera_z_look = -100000;
+    right = false;
+    left = false;
+    center = true;
+    rightClick = false;
+    leftClick = false;
     element = document.getElementById("world");
 
     // Initialize the renderer.
@@ -116,38 +126,38 @@ function World() {
 
     //Create Running Platform
     var geometry = new THREE.BoxGeometry(8000, 0, 120000);
-    const loader = new THREE.TextureLoader().load( "images/23886804.jpg", (texture) => {
+    const loader = new THREE.TextureLoader().load( "images/grass.jpg", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const cube = new THREE.Mesh(geometry, material);
       cube.position.set(0, -400, -60000);
       loader.wrapS = THREE.RepeatWrapping;
       loader.wrapT = THREE.RepeatWrapping;
-      loader.repeat.set( 3, 1);
+      loader.repeat.set( 5, 30);
       scene.add(cube);
     });
 
      //Create Left Wall 
     var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
-    const loaderLeft = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
+    const loaderLeft = new THREE.TextureLoader().load( "images/ground-bricks-photo.jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
       cubeLeft.position.set(-1800, -400, -60000);
       loaderLeft.wrapS = THREE.RepeatWrapping;
       loaderLeft.wrapT = THREE.RepeatWrapping;
-      loaderLeft.repeat.set(100, 50);
+      loaderLeft.repeat.set(2, 30);
       scene.add(cubeLeft);
       cubeLeft.rotation.z =-1.5;
     });
 
     //Create Right Wall 
     var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
-    const loaderRight = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
+    const loaderRight = new THREE.TextureLoader().load( "images/ground-bricks-photo.jpg", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
       cubeRight.position.set(1800, -400, -60000);
       loaderRight.wrapS = THREE.RepeatWrapping;
       loaderRight.wrapT = THREE.RepeatWrapping;
-      loaderRight.repeat.set(100, 50);
+      loaderRight.repeat.set(2, 30);
       scene.add(cubeRight);
       cubeRight.rotation.z =1.5;
     });
@@ -562,7 +572,9 @@ function Character() {
         case "left":
           if (self.currentLane != -1) {
             self.isSwitchingLeft = true;
-            camera_x -= 750;
+            left = true;
+            leftClick = true;
+            // camera_x -= 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -570,7 +582,9 @@ function Character() {
         case "right":
           if (self.currentLane != 1) {
             self.isSwitchingRight = true;
-            camera_x += 750;
+            right = true;
+            rightClick = true;
+            // camera_x += 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -587,6 +601,64 @@ function Character() {
     //follow character
     camera_z_position -= 100;
     camera_z_look -= 100;
+
+    if(right){
+      if(center){
+        if(camera_x < 750){
+          camera_x +=187.5;
+        }
+        else{
+          right = false;
+          center = false;
+        }
+      }
+      else{ //currently at left lane
+        if(rightClick){ //right click
+          if(camera_x == -750){ //begining of left lane
+            camera_x +=187.5;
+            rightClick = false;
+          }
+        }
+        else{
+          if(camera_x < 0){ // no right click
+            camera_x +=187.5;
+          }
+          else{
+            right = false;
+            center = true;
+          }
+        } 
+      }
+    }
+
+    if(left){
+      if(center){
+        if(camera_x > -750){
+          camera_x -=187.5;
+        }
+        else{
+          left = false;
+          center = false;
+        }
+      }
+      else{ //currently at right lane
+        if(leftClick){ //right click
+          if(camera_x == 750){ //begining of right lane
+            camera_x -=187.5;
+            leftClick = false;
+          }
+        }
+        else{
+          if(camera_x > 0){ // no right click
+            camera_x -=187.5;
+          }
+          else{
+            left = false;
+            center = true;
+          }
+        } 
+      }
+    }
 
     camera.position.set(camera_x, camera_y, camera_z_position);
     camera.lookAt(new THREE.Vector3(camera_x, 650, camera_z_look));
