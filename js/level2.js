@@ -132,7 +132,7 @@ function World() {
       scene.add(cube);
     });
 
-    var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
+    var geometryLeft = new THREE.BoxGeometry(1000, 1500, 120000);
     const loaderLeft = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
@@ -144,7 +144,7 @@ function World() {
       cubeLeft.rotation.z =-1.5;
     });
 
-    var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
+    var geometryRight = new THREE.BoxGeometry(1000, 1500, 120000);
     const loaderRight = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
@@ -155,6 +155,18 @@ function World() {
       scene.add(cubeRight);
       cubeRight.rotation.z =1.5;
     });
+
+    // var geometryGrassLeft = new THREE.BoxGeometry(1000, 1500, 120000);
+    // const loaderGrassLeft = new THREE.TextureLoader().load( "images/grass.jpg", (texture) => {
+    //   const materialGrassLeft = new THREE.MeshBasicMaterial({ map: texture });
+    //   const cubeGrassLeft = new THREE.Mesh(geometryGrassLeft, materialGrassLeft);
+    //   cubeGrassLeft.position.set(100, -400, -60000);
+    //   loaderGrassLeft.wrapS = THREE.RepeatWrapping;
+    //   loaderGrassLeft.wrapT = THREE.RepeatWrapping;
+    //   loaderGrassLeft.repeat.set(1.5, 50);
+    //   scene.add(cubeGrassLeft);
+    //   // cubeRight.rotation.z =1.5;
+    // });
 
     objects = [];
     objectsCoins = [];

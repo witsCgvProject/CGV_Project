@@ -238,7 +238,7 @@ function World() {
       // Add more spikes and increase the difficulty.
       if (objects[objects.length - 1].mesh.position.z % 3000 == 0) {
         difficulty += 1;
-        var levelLength = 30;
+        var levelLength = 100;
         if (difficulty % levelLength == 0) {
           var level = difficulty / levelLength;
           switch (level) {
@@ -246,19 +246,19 @@ function World() {
               spikePresenceProb = 0.35;
               break;
             case 2:
-              spikePresenceProb = 0.4;
+              spikePresenceProb = 0.37;
               break;
             case 3:
-              spikePresenceProb = 0.45;
+              spikePresenceProb = 0.39;
               break;
             case 4:
-              spikePresenceProb = 0.5;
+              spikePresenceProb = 0.41;
               break;
             case 5:
-              spikePresenceProb = 0.55;
+              spikePresenceProb = 0.43;
               break;
             case 6:
-              spikePresenceProb = 0.6;
+              spikePresenceProb = 0.45;
               break;
 
           }
@@ -311,12 +311,12 @@ function World() {
         console.log(coinsCollected)
        }
        //end game at a certain score that relates to the end of the road
-       if(score==11540){
+      if(score==14400){
         console.log(character.element.position.z)
         gameOver = true;
         paused = true;
         
-       }
+      }
       // Check for collisions between the character and objects.
       if (collisionsDetected()) {
         gameOver = true;
@@ -429,7 +429,7 @@ function World() {
     for (var lane = -1; lane < 2; lane++) {
       var randomNumber = Math.random();
       if (randomNumber < probability) {
-        var scale = 0.70
+        var scale = 0.50
         var spike = new Spike(lane * 800, -400, position, scale, score);
         objects.push(spike);
         scene.add(spike.mesh);
@@ -652,8 +652,8 @@ function Character() {
     // }
 
     //follow character
-    camera_z_position -= 100;
-    camera_z_look -= 100;
+    camera_z_position -= 80;
+    camera_z_look -= 80;
 
     camera.position.set(camera_x, camera_y, camera_z_position);
     camera.lookAt(new THREE.Vector3(camera_x, 650, camera_z_look));
@@ -729,7 +729,7 @@ function Character() {
       }
     }
     //move person forward
-    self.element.position.z -= 100;
+    self.element.position.z -= 80;
   };
 
   /**
