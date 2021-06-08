@@ -189,6 +189,15 @@ function World() {
     var p = 80;
 
     keysAllowed = {};
+    document.addEventListener("click", 
+    function(){
+      paused = true;
+            character.onPause();
+            document.getElementById("variable-content").style.visibility =
+              "visible";
+            document.getElementById("variable-content").innerHTML =
+              "Game is paused. Press any key to resume.";
+    })
     document.addEventListener("keydown", function (e) {
       if (!gameOver) {
         var key = e.keyCode;
