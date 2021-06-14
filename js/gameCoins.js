@@ -122,14 +122,14 @@ function World() {
     scene.add(character.element);
 
     //Create Running Platform
-    var geometry = new THREE.BoxGeometry(8000, 0, 120000);
-    const loader = new THREE.TextureLoader().load( "images/23886804.jpg", (texture) => {
+    var geometry = new THREE.BoxGeometry(4000, 0, 120000);
+    const loader = new THREE.TextureLoader().load( "images/level1.jpg", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const cube = new THREE.Mesh(geometry, material);
       cube.position.set(0, -400, -60000);
       loader.wrapS = THREE.RepeatWrapping;
       loader.wrapT = THREE.RepeatWrapping;
-      loader.repeat.set( 3, 1);
+      loader.repeat.set( 1, 1);
       scene.add(cube);
     });
 
@@ -338,6 +338,13 @@ function World() {
         console.log(character.element.position.z)
         gameOver = true;
         paused = true;
+
+        //adds sound when character reaches end of level
+        audio = document.createElement('audio');
+        source = document.createElement('source');
+        source.src = 'images/sounds/arcade_game_level_up_tone.mp3';
+        audio.appendChild(source);
+        audio.play();
         
       }
 

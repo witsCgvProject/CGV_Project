@@ -158,7 +158,7 @@ function World() {
 
     //Create Back Wall 
     var geometryBack = new THREE.BoxGeometry(3000, 1600, 0);
-    const loaderBack = new THREE.TextureLoader().load( "images/level_up.jpg", (texture) => {
+    const loaderBack = new THREE.TextureLoader().load( "images/level_up_3.jpg", (texture) => {
       const materialBack = new THREE.MeshBasicMaterial({ map: texture });
       const cubeBack = new THREE.Mesh(geometryBack, materialBack);
       cubeBack.position.set(0, 385, -120000);
@@ -339,6 +339,13 @@ function World() {
         console.log(character.element.position.z)
         gameOver = true;
         paused = true;
+
+        //adds sound when character reaches end of level
+        audio = document.createElement('audio');
+        source = document.createElement('source');
+        source.src = 'images/sounds/arcade_game_level_up_tone.mp3';
+        audio.appendChild(source);
+        audio.play();
         
       }
 
