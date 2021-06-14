@@ -20,7 +20,8 @@
   red: 0xFF2B2B,
   skin: 0xDEAA88,
   darkBlue:0x1F263B,
-  lightBlue: 0x9CBFE3
+  lightBlue: 0x9CBFE3,
+  neonPink: 0xfe019a
 };
 var camera_y;
 var camera_z_position;
@@ -95,6 +96,7 @@ function World() {
     scene = new THREE.Scene();
     fogDistance = 35000;
     scene.fog = new THREE.Fog(0xbadbe4, 1, fogDistance);
+    scene.background = new THREE.Color( 0x300067 );
 
     // Initialize the camera with field of view, aspect ratio,
     // near plane, and far plane.
@@ -123,36 +125,36 @@ function World() {
 
     //Create Running Platform
     var geometry = new THREE.BoxGeometry(4000, 0, 120000);
-    const loader = new THREE.TextureLoader().load( "images/level1.jpg", (texture) => {
+    const loader = new THREE.TextureLoader().load( "images/floor_lv1_try.jpg", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const cube = new THREE.Mesh(geometry, material);
       cube.position.set(0, -400, -60000);
       loader.wrapS = THREE.RepeatWrapping;
       loader.wrapT = THREE.RepeatWrapping;
-      loader.repeat.set( 1, 1);
+      loader.repeat.set( 1, 50);
       scene.add(cube);
     });
 
-    var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
-    const loaderLeft = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
+    var geometryLeft = new THREE.BoxGeometry(2000, 500, 120000);
+    const loaderLeft = new THREE.TextureLoader().load( "images/wall_lv1_other.jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
-      cubeLeft.position.set(-1800, -400, -60000);
+      cubeLeft.position.set(-1800, 0, -60000);
       loaderLeft.wrapS = THREE.RepeatWrapping;
       loaderLeft.wrapT = THREE.RepeatWrapping;
-      loaderLeft.repeat.set(100, 50);
+      loaderLeft.repeat.set(1, 50);
       scene.add(cubeLeft);
       cubeLeft.rotation.z =-1.5;
     });
 
-    var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
-    const loaderRight = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
+    var geometryRight = new THREE.BoxGeometry(2000, 500, 120000);
+    const loaderRight = new THREE.TextureLoader().load( "images/wall_lv1.jpg", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
-      cubeRight.position.set(1800, -400, -60000);
+      cubeRight.position.set(1800, 0, -60000);
       loaderRight.wrapS = THREE.RepeatWrapping;
       loaderRight.wrapT = THREE.RepeatWrapping;
-      loaderRight.repeat.set(100, 50);
+      loaderRight.repeat.set(1, 50);
       scene.add(cubeRight);
       cubeRight.rotation.z =1.5;
     });
@@ -546,8 +548,8 @@ function Character() {
   // Character defaults that don't change throughout the game.
   this.skinColor = Colors.skin;
   this.hairColor = Colors.brown;
-  this.shirtColor = Colors.lightBlue;
-  this.shortsColor = Colors.blue;
+  this.shirtColor = Colors.neonPink;
+  this.shortsColor = Colors.black;
   this.jumpDuration = 0.6;
   this.jumpHeight = 1000;
 
@@ -586,20 +588,20 @@ function Character() {
 
     self.torso = createBox(150, 190, 40, self.shirtColor, 0, 100, 0);
 
-    self.leftLowerArm = createLimb(20, 120, 30, self.skinColor, 0, -170, 0);
-    self.leftArm = createLimb(30, 140, 40, self.skinColor, -100, 190, -10);
+    self.leftLowerArm = createLimb(20, 120, 30, Colors.neonPink, 0, -170, 0);
+    self.leftArm = createLimb(30, 140, 40, Colors.black, -100, 190, -10);
     self.leftArm.add(self.leftLowerArm);
 
-    self.rightLowerArm = createLimb(20, 120, 30, self.skinColor, 0, -170, 0);
-    self.rightArm = createLimb(30, 140, 40, self.skinColor, 100, 190, -10);
+    self.rightLowerArm = createLimb(20, 120, 30, Colors.neonPink, 0, -170, 0);
+    self.rightArm = createLimb(30, 140, 40, Colors.black, 100, 190, -10);
     self.rightArm.add(self.rightLowerArm);
 
-    self.leftLowerLeg = createLimb(40, 200, 40, self.skinColor, 0, -200, 0);
-    self.leftLeg = createLimb(50, 170, 50, self.shortsColor, -50, -10, 30);
+    self.leftLowerLeg = createLimb(40, 200, 40, Colors.neonPink, 0, -200, 0);
+    self.leftLeg = createLimb(50, 170, 50, Colors.black, -50, -10, 30);
     self.leftLeg.add(self.leftLowerLeg);
 
-    self.rightLowerLeg = createLimb(40, 200, 40, self.skinColor, 0, -200, 0);
-    self.rightLeg = createLimb(50, 170, 50, self.shortsColor, 50, -10, 30);
+    self.rightLowerLeg = createLimb(40, 200, 40, Colors.neonPink, 0, -200, 0);
+    self.rightLeg = createLimb(50, 170, 50, Colors.black, 50, -10, 30);
     self.rightLeg.add(self.rightLowerLeg);
 
     self.element = createGroup(0, 0, -4000);
@@ -846,7 +848,7 @@ function Character() {
  else{
   var geometry = new THREE.BoxGeometry(1000, 500, 500);
   const loader = new THREE.TextureLoader();
-  loader.load("js/metal_text.jpg", (texture) => {
+  loader.load("images/future_text.jpg", (texture) => {
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const cube = new THREE.Mesh(geometry, material);
     this.mesh.add(cube);
@@ -1005,7 +1007,7 @@ function createBox(dx, dy, dz, color, x, y, z, notFlatShading) {
 function createCylinder( radiusTop, radiusBottom, height, radialSegments, color, x, y, z) {
 
   var geom = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, radialSegments);
-  const texture = new THREE.TextureLoader().load( "js/future_text.jpg" );
+  const texture = new THREE.TextureLoader().load( "images/future_text.jpg" );
   const mat = new THREE.MeshStandardMaterial({map: texture})
     var cylinder = new THREE.Mesh(geom, mat);
     cylinder.castShadow = true;
