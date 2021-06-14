@@ -883,7 +883,7 @@ function CoinFunc(x, y, z, s) {
   this.mesh = new THREE.Object3D();
 
   //Insert Coin
-  const texture = new THREE.TextureLoader().load( "js/coin_text.jpg" );
+  const texture = new THREE.TextureLoader().load( "images/coin_text.jpg" );
 
   const material = new THREE.MeshStandardMaterial({map: texture})
 
