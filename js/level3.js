@@ -178,7 +178,6 @@ function World() {
       loaderBack.wrapT = THREE.RepeatWrapping;
       loaderBack.repeat.set(1, 1);
       scene.add(cubeBack);
-      // cubeBack.rotation.x = 1.5;
     });
 
     //initialise the coin and spiike objects
@@ -676,9 +675,6 @@ function Character() {
             self.isSwitchingLeft = true;
             left = true;
             leftClick = true;
-            // camera_x -= 750;
-            // camera.position.set(camera_x, 1500, -2000);
-            // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
           break;
         case "right":
@@ -686,19 +682,10 @@ function Character() {
             self.isSwitchingRight = true;
             right = true;
             rightClick = true;
-            // camera_x += 750;
-            // camera.position.set(camera_x, 1500, -2000);
-            // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
           break;
       }
     }
-    // camera.position.set(camera_x, 700, -1600);
-    // camera.lookAt(new THREE.Vector3(camera_x, 650, -10000));
-
-    // if(camera_y >= 650){
-    //   camera_y -=1;
-    // }
 
     //follow character
     camera_z_position -= 80;
@@ -907,8 +894,6 @@ function Character() {
     });
 
   this.mesh.add(spikeMiddle);
-  // this.mesh.add(spikeLeft);
-  // this.mesh.add(spikeRight);
 
   this.mesh.position.set(0, 370, z);
   this.mesh.scale.set(0.65, 0.33, 1);
@@ -1094,15 +1079,4 @@ function createCylinder( radiusTop, radiusBottom, height, radialSegments, color,
     cylinder.receiveShadow = true;
     cylinder.position.set(x, y, z);
     return cylinder;
-
-  // var mat = new THREE.MeshPhongMaterial({
-  //   color: color,
-  //   flatShading: true,
-  // });
-  // var cylinder = new THREE.Mesh(geom, mat);
-
-  // cylinder.castShadow = true;
-  // cylinder.receiveShadow = true;
-  // cylinder.position.set(x, y, z);
-  // return cylinder;
 }
