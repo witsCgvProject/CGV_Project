@@ -87,7 +87,7 @@ function World() {
 
     // Initialize the scene.
     scene = new THREE.Scene();
-    fogDistance = 40000;
+    fogDistance = 35000;
     scene.fog = new THREE.Fog(0xbadbe4, 1, fogDistance);
 
     // Initialize the camera with field of view, aspect ratio,
@@ -151,6 +151,19 @@ function World() {
       loaderRight.repeat.set(100, 50);
       scene.add(cubeRight);
       cubeRight.rotation.z =1.5;
+    });
+
+    //Create Back Wall 
+    var geometryBack = new THREE.BoxGeometry(3000, 1600, 0);
+    const loaderBack = new THREE.TextureLoader().load( "images/level_up_1.jpg", (texture) => {
+      const materialBack = new THREE.MeshBasicMaterial({ map: texture });
+      const cubeBack = new THREE.Mesh(geometryBack, materialBack);
+      cubeBack.position.set(0, 385, -120000);
+      loaderBack.wrapS = THREE.RepeatWrapping;
+      loaderBack.wrapT = THREE.RepeatWrapping;
+      loaderBack.repeat.set(1, 1);
+      scene.add(cubeBack);
+      // cubeBack.rotation.x = 1.5;
     });
 
     //initialise the coin and spiike objects
@@ -241,10 +254,7 @@ function World() {
     if (!paused) {
       // Add more spikes and increase the difficulty.
       if (objects[objects.length - 1].mesh.position.z % 3000 == 0) {
-        if (score >= 3000 && score < 4000){
-          spikePresenceProb = 0.15
-        }
-        else if (score >= 1000 && score < 2000){
+        if (score >= 1000 && score < 2000){
           spikePresenceProb = 0.165
         }
         else if (score >= 2000 && score < 3000){
@@ -271,57 +281,14 @@ function World() {
         else if (score >= 9000 && score < 10000){
           spikePresenceProb = 0.285
         }
-        else if (score >= 10000 && score < 11000){
+        else if (score >= 10000 && score < 12000){
           spikePresenceProb = 0.3
         }
-        else if (score >= 11000 && score < 12000){
-          spikePresenceProb = 0.315
-        }
-        // else if (score >= 12000 && score < 13000){
-        //   spikePresenceProb = 0.33
-        // }
-        // else if (score >= 13000 && score < 14000){
-        //   spikePresenceProb = 0.345
-        // }
         else {
-          spikePresenceProb = 0.0001
+          spikePresenceProb = 0.00001
         }
-        // difficulty += 1;
-        // var levelLength = 100;
-        // if (difficulty % levelLength == 0) {
-        //   var level = difficulty / levelLength;
-        //   switch (level) {
-        //     case 1:
-        //       spikePresenceProb = 0.35;
-        //       break;
-        //     case 2:
-        //       spikePresenceProb = 0.4;
-        //       break;
-        //     case 3:
-        //       spikePresenceProb = 0.45;
-        //       break;
-        //     case 4:
-        //       spikePresenceProb = 0.5;
-        //       break;
-        //     case 5:
-        //       spikePresenceProb = 0.55;
-        //       break;
-        //     case 6:
-        //       spikePresenceProb = 0.6;
-        //       break;
-
-        //   }
-        // }
-        // if (difficulty >= 5 * levelLength && difficulty < 6 * levelLength) {
-        //   fogDistance -= 25000 / levelLength;
-        // } else if (
-        //   difficulty >= 8 * levelLength &&
-        //   difficulty < 9 * levelLength
-        // ) {
-        //   fogDistance -= 5000 / levelLength;
-        // }
   
-        if (score > 1){
+        if (score > 1 ){
           createRowOfSpikes(-125000, spikePresenceProb, 0.5, maxSpikeSize);
           createRowOfCoins(-119500, spikePresenceProb, 0.5, maxSpikeSize);
           scene.fog.far = fogDistance;
@@ -362,6 +329,8 @@ function World() {
         paused = true;
         
       }
+
+
       // Check for collisions between the character and objects.
       if (collisionsDetected()) {
         gameOver = true;
@@ -649,6 +618,7 @@ function Character() {
 
     //follow character
     camera_z_position -= 80;
+    // console.log(camera_z_position);
     camera_z_look -= 80;
 
     camera.position.set(camera_x, camera_y, camera_z_position);
@@ -773,7 +743,8 @@ function Character() {
  * A collidable spike in the game positioned at X, Y, Z in the scene and with
  * scale S.
  */
-function Spike(x, y, z, s,score) {
+ 
+ function Spike(x, y, z, s,score) {
   // Explicit binding.
   var self = this;
 
@@ -786,21 +757,20 @@ function Spike(x, y, z, s,score) {
   var spikeLeft = createCylinder(0, 150, 750, 64, Colors.grey, 0, 500, 0);
   var spikeRight = createCylinder(0, 150, 750, 64, Colors.grey, -250, 500, 0);
 
-
-  if (score>13000){
-  var geometry = new THREE.BoxGeometry(3500, 4000, 100);
-  const loader = new THREE.TextureLoader();
-  loader.load("images/level_up.jpg", (texture) => {
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-    const cube = new THREE.Mesh(geometry, material);
-    this.mesh.add(cube);
-  });
+  if (score >= 14000 && score <= 14300){
+    var geometry = new THREE.BoxGeometry(3500, 4000, 100);
+    const loader = new THREE.TextureLoader();
+    loader.load("images/level_up.jpg", (texture) => {
+      const material = new THREE.MeshBasicMaterial({ map: texture });
+      const cube = new THREE.Mesh(geometry, material);
+      this.mesh.add(cube);
+    });
 
   this.mesh.add(spikeMiddle);
   // this.mesh.add(spikeLeft);
   // this.mesh.add(spikeRight);
 
-  this.mesh.position.set(0, 370*5, z);
+  this.mesh.position.set(0, 370, z);
   this.mesh.scale.set(0.65, 0.33, 1);
   // this.scale = s;
 
@@ -819,7 +789,7 @@ function Spike(x, y, z, s,score) {
  else{
   var geometry = new THREE.BoxGeometry(1000, 500, 500);
   const loader = new THREE.TextureLoader();
-  loader.load("js/future_text.jpg", (texture) => {
+  loader.load("js/metal_text.jpg", (texture) => {
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const cube = new THREE.Mesh(geometry, material);
     this.mesh.add(cube);
