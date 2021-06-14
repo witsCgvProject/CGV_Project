@@ -55,9 +55,7 @@ function World() {
   // Scoped variables in this world.
   var element,
     audio,
-    audio2,
     source,
-    source2,
     scene,
     camera,
     character,
@@ -95,18 +93,6 @@ function World() {
     rightClick = false;
     leftClick = false;
     element = document.getElementById("world");
-
-    //initialize sound for spikes
-    // audio = document.createElement('audio');
-    // source = document.createElement('source');
-    // source.src = 'images/sounds/WoodCrashesDistant FS022705.mp3';
-    // audio.appendChild(source);
-
-    //initialize sound for coins
-    // source = document.createElement('source');
-    // source.src = 'images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3';
-    // audio.appendChild(source);
-    // audio.play();
 
     // Initialize the renderer.
     renderer = new THREE.WebGLRenderer({
@@ -146,20 +132,6 @@ function World() {
     // Initialize the character and add it to the scene.
     character = new Character();
     scene.add(character.element);
-
-    // //creating sound for coin
-    // const listener = new
-    // Three.AudioListener();
-    // camera.add(listener);
-    // const sound = new THREE.PositionalAudio(listener);
-    // const audioLoader = new THREE.AudioLoader();
-    // audioLoader.load('images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3')
-    
-    // function(buffer){
-    //   sound.setBuffer(buffer);
-    //   sound.setRefDistance(20);
-
-    // }
 
     //Create Running Platform
     var geometry = new THREE.BoxGeometry(4000, 0, 120000);
@@ -221,7 +193,6 @@ function World() {
     for (var i = 10; i < 40; i++) {
       createRowOfCoins(i * -3000, spikePresenceProb, 0.5, maxSpikeSize);
     }
-
 
     // The game is paused to begin with and the game is not over.
     gameOver = false;
@@ -339,9 +310,6 @@ function World() {
           createRowOfCoins(-119500, spikePresenceProb, 0.5, maxSpikeSize);
           scene.fog.far = fogDistance;
         }
-        // createRowOfSpikes(-120000, spikePresenceProb, 0.5, maxSpikeSize);
-        // createRowOfCoins(-120000, spikePresenceProb, 0.5, maxSpikeSize);
-        // scene.fog.far = fogDistance;
       }
 
       // Move the spikess closer to the character.
@@ -384,7 +352,6 @@ function World() {
         paused = true;
         
       }
-
 
       // Check for collisions between the character and objects.
       if (collisionsDetected()) {
@@ -465,8 +432,6 @@ function World() {
           row.insertCell(1).innerHTML = rankNames[7];
         }
       }
-
-      
 
       // Update the scores.
       score += 10;
@@ -708,9 +673,6 @@ function Character() {
             self.isSwitchingLeft = true;
             left = true;
             leftClick = true;
-            // camera_x -= 750;
-            // camera.position.set(camera_x, 1500, -2000);
-            // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
           break;
         case "right":
@@ -718,19 +680,10 @@ function Character() {
             self.isSwitchingRight = true;
             right = true;
             rightClick = true;
-            // camera_x += 750;
-            // camera.position.set(camera_x, 1500, -2000);
-            // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
           break;
       }
     }
-    // camera.position.set(camera_x, 700, -1600);
-    // camera.lookAt(new THREE.Vector3(camera_x, 650, -10000));
-
-    // if(camera_y >= 650){
-    //   camera_y -=1;
-    // }
 
     //follow character
     camera_z_position -= 80;
@@ -941,8 +894,6 @@ function Character() {
     });
 
   this.mesh.add(spikeMiddle);
-  // this.mesh.add(spikeLeft);
-  // this.mesh.add(spikeRight);
 
   this.mesh.position.set(0, 370, z);
   this.mesh.scale.set(0.65, 0.33, 1);
@@ -1129,15 +1080,4 @@ function createCylinder( radiusTop, radiusBottom, height, radialSegments, color,
     cylinder.receiveShadow = true;
     cylinder.position.set(x, y, z);
     return cylinder;
-
-  // var mat = new THREE.MeshPhongMaterial({
-  //   color: color,
-  //   flatShading: true,
-  // });
-  // var cylinder = new THREE.Mesh(geom, mat);
-
-  // cylinder.castShadow = true;
-  // cylinder.receiveShadow = true;
-  // cylinder.position.set(x, y, z);
-  // return cylinder;
 }
