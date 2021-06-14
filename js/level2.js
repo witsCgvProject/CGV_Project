@@ -503,7 +503,6 @@ function World() {
         return true;
       }
     }
-
     return false;
   }
   
