@@ -53,6 +53,8 @@ function World() {
 
   // Scoped variables in this world.
   var element,
+    audio, 
+    source, 
     scene,
     camera,
     character,
@@ -334,6 +336,13 @@ function World() {
       // Check for collisions between the character and coin.
       if (collisionsDetectedCoin()) {
         coinsCollected+=1;
+
+        //adds sound
+        audio = document.createElement('audio');
+        source = document.createElement('source');
+        source.src = 'images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3';
+        audio.appendChild(source);
+        audio.play();
         
         console.log(coinsCollected)
        }
@@ -353,6 +362,13 @@ function World() {
         document.addEventListener("keydown", function (e) {
           if (e.keyCode == 40) document.location.reload(true);
         });
+
+        //Adds crash when character hits the obstacle
+        audio = document.createElement('audio');
+        source = document.createElement('source');
+        source.src = 'images/sounds/WoodCrashesDistant FS022705.mp3';
+        audio.appendChild(source);
+        audio.play();
         var variableContent = document.getElementById("variable-content");
         variableContent.style.visibility = "visible";
         variableContent.innerHTML =
