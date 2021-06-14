@@ -142,7 +142,7 @@ function World() {
       scene.add(cube);
     });
 
-    var geometryLeft = new THREE.BoxGeometry(1000, 1500, 120000);
+    var geometryLeft = new THREE.BoxGeometry(3000, 1500, 120000);
     const loaderLeft = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
@@ -154,7 +154,7 @@ function World() {
       cubeLeft.rotation.z =-1.5;
     });
 
-    var geometryRight = new THREE.BoxGeometry(1000, 1500, 120000);
+    var geometryRight = new THREE.BoxGeometry(3000, 1500, 120000);
     const loaderRight = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
