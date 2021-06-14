@@ -170,7 +170,7 @@ function World() {
 
     //Create Back Wall 
     var geometryBack = new THREE.BoxGeometry(3000, 1600, 0);
-    const loaderBack = new THREE.TextureLoader().load( "images/level_up.jpg", (texture) => {
+    const loaderBack = new THREE.TextureLoader().load( "images/level_up_3.jpg", (texture) => {
       const materialBack = new THREE.MeshBasicMaterial({ map: texture });
       const cubeBack = new THREE.Mesh(geometryBack, materialBack);
       cubeBack.position.set(0, 385, -120000);
