@@ -1,11 +1,10 @@
 // Man on a mission
 // A simple yet fun game 
-// created by Yaakov, Moshe, Shlomo, Aharon and Ioanni
 
-
- // Global Variable Initialisation
- 
- var Colors = { //colours used for the textures
+/**
+ * Constants used in this game.
+ */
+ var Colors = {
   cherry: 0xe35d6a,
   blue: 0x1560bd,
   white: 0xd8d0d1,
@@ -23,12 +22,15 @@
   darkBlue:0x1F263B,
   lightBlue: 0x9CBFE3
 };
-
-// variables used for changing camera position to follow character
 var camera_x;
 var camera_y;
 var camera_z_position;
 var camera_z_look;
+var right;
+var left;
+var rightClick;
+var leftClick
+var center;
 var deg2Rad = Math.PI / 180;
 var score;
 
@@ -37,14 +39,25 @@ window.addEventListener("load", function () {
   new World();
 });
 
-//This function builds the world and starts the game loop
+/*
+ * THE WORLD
+ */
 
+/**
+ * A class of which the world is an instance. Initializes the game
+ * and contains the main game loop.
+ *
+ */
 function World() {
   // Explicit binding of this even in changing contexts.
   var self = this;
 
   // Scoped variables in this world.
   var element,
+    audio,
+    audio2,
+    source,
+    source2,
     scene,
     camera,
     character,
@@ -66,15 +79,34 @@ function World() {
   // Initialize the world.
   init();
 
-  // Builds the renderer, scene, lights, camera, and the character, then begins the rendering loop.
-  
+  /**
+   * Builds the renderer, scene, lights, camera, and the character,
+   * then begins the rendering loop.
+   */
   function init() {
     // Locate where the world is to be located on the screen.
     camera_x=0;
     camera_y=700;
     camera_z_position = -1600;
     camera_z_look = -100000;
+    right = false;
+    left = false;
+    center = true;
+    rightClick = false;
+    leftClick = false;
     element = document.getElementById("world");
+
+    //initialize sound for spikes
+    // audio = document.createElement('audio');
+    // source = document.createElement('source');
+    // source.src = 'images/sounds/WoodCrashesDistant FS022705.mp3';
+    // audio.appendChild(source);
+
+    //initialize sound for coins
+    // source = document.createElement('source');
+    // source.src = 'images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3';
+    // audio.appendChild(source);
+    // audio.play();
 
     // Initialize the renderer.
     renderer = new THREE.WebGLRenderer({
@@ -115,6 +147,20 @@ function World() {
     character = new Character();
     scene.add(character.element);
 
+    // //creating sound for coin
+    // const listener = new
+    // Three.AudioListener();
+    // camera.add(listener);
+    // const sound = new THREE.PositionalAudio(listener);
+    // const audioLoader = new THREE.AudioLoader();
+    // audioLoader.load('images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3')
+    
+    // function(buffer){
+    //   sound.setBuffer(buffer);
+    //   sound.setRefDistance(20);
+
+    // }
+
     //Create Running Platform
     var geometry = new THREE.BoxGeometry(8000, 0, 120000);
     const loader = new THREE.TextureLoader().load( "images/23886804.jpg", (texture) => {
@@ -127,7 +173,6 @@ function World() {
       scene.add(cube);
     });
 
-    //Create Left Wall 
     var geometryLeft = new THREE.BoxGeometry(3000, 1000, 120000);
     const loaderLeft = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
@@ -140,7 +185,6 @@ function World() {
       cubeLeft.rotation.z =-1.5;
     });
 
-    //Create Right Wall 
     var geometryRight = new THREE.BoxGeometry(3000, 1000, 120000);
     const loaderRight = new THREE.TextureLoader().load( "images/images (1).jpg", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
@@ -169,12 +213,11 @@ function World() {
     //initialise the coin and spiike objects
     objects = [];
     objectsCoins = [];
-    spikePresenceProb = 0.135;
+    spikePresenceProb = 0.2;
     maxSpikeSize = 0.5;
     for (var i = 10; i < 40; i++) {
       createRowOfSpikes(i * -3000, spikePresenceProb, 0.5, maxSpikeSize);
     }
-
     for (var i = 10; i < 40; i++) {
       createRowOfCoins(i * -3000, spikePresenceProb, 0.5, maxSpikeSize);
     }
@@ -213,12 +256,12 @@ function World() {
           document.getElementById("controls").style.display = "none";
         } else {
           if (key == p) {
-            // paused = true;
-            // character.onPause();
-            // document.getElementById("variable-content").style.visibility =
-            //   "visible";
-            // document.getElementById("variable-content").innerHTML =
-            //   "Game is paused. Press any key to resume.";
+            paused = true;
+            character.onPause();
+            document.getElementById("variable-content").style.visibility =
+              "visible";
+            document.getElementById("variable-content").innerHTML =
+              "Game is paused. Press any key to resume.";
           }
           if (key == up && !paused) {
             character.onUpKeyPressed();
@@ -248,7 +291,10 @@ function World() {
     // Begin the rendering loop.
     loop();
   }
-//still to be done - change difficulty using score
+
+  /**
+   * The main animation loop.
+   */
   function loop() {
     // Update the game.
     if (!paused) {
@@ -293,6 +339,9 @@ function World() {
           createRowOfCoins(-119500, spikePresenceProb, 0.5, maxSpikeSize);
           scene.fog.far = fogDistance;
         }
+        // createRowOfSpikes(-120000, spikePresenceProb, 0.5, maxSpikeSize);
+        // createRowOfCoins(-120000, spikePresenceProb, 0.5, maxSpikeSize);
+        // scene.fog.far = fogDistance;
       }
 
       // Move the spikess closer to the character.
@@ -319,6 +368,12 @@ function World() {
       // Check for collisions between the character and coin.
       if (collisionsDetectedCoin()) {
         coinsCollected+=1;
+        //adds sound
+        audio = document.createElement('audio');
+        source = document.createElement('source');
+        source.src = 'images/sounds/zapsplat_multimedia_game_sound_coins_money_collect_bank_006_67722.mp3';
+        audio.appendChild(source);
+        audio.play();
         
         console.log(coinsCollected)
        }
@@ -338,6 +393,13 @@ function World() {
         document.addEventListener("keydown", function (e) {
           if (e.keyCode == 40) document.location.reload(true);
         });
+        //Adds crash when character hits the obstacle
+        audio = document.createElement('audio');
+        source = document.createElement('source');
+        source.src = 'images/sounds/WoodCrashesDistant FS022705.mp3';
+        audio.appendChild(source);
+        audio.play();
+
         var variableContent = document.getElementById("variable-content");
         variableContent.style.visibility = "visible";
         variableContent.innerHTML =
@@ -355,7 +417,56 @@ function World() {
         ];
         var rankIndex = Math.floor(score / 15000);
 
+        // If applicable, display the next achievable rank.
+        if (score < 124000) {
+          var nextRankRow = table.insertRow(0);
+          nextRankRow.insertCell(0).innerHTML =
+            rankIndex <= 5
+              ? "".concat((rankIndex + 1) * 15, "k-", (rankIndex + 2) * 15, "k")
+              : rankIndex == 6
+              ? "105k-124k"
+              : "124k+";
+          nextRankRow.insertCell(1).innerHTML =
+            "*Score within this range to earn the next rank*";
+        }
+
+        // Display the achieved rank.
+        var achievedRankRow = table.insertRow(0);
+        achievedRankRow.insertCell(0).innerHTML =
+          rankIndex <= 6
+            ? "".concat(rankIndex * 15, "k-", (rankIndex + 1) * 15, "k").bold()
+            : score < 124000
+            ? "105k-124k".bold()
+            : "124k+".bold();
+        achievedRankRow.insertCell(1).innerHTML =
+          rankIndex <= 6
+            ? "Congrats! You're a ".concat(rankNames[rankIndex], "!").bold()
+            : score < 124000
+            ? "Congrats! You're a ".concat(rankNames[7], "!").bold()
+            : "Congrats! You exceeded the creator's high score of 123790 and beat the game!".bold();
+
+        // Display all ranks lower than the achieved rank.
+        if (score >= 120000) {
+          rankIndex = 7;
+        }
+        for (var i = 0; i < rankIndex; i++) {
+          var row = table.insertRow(i);
+          row.insertCell(0).innerHTML = "".concat(
+            i * 15,
+            "k-",
+            (i + 1) * 15,
+            "k"
+          );
+          row.insertCell(1).innerHTML = rankNames[i];
+        }
+        if (score > 124000) {
+          var row = table.insertRow(7);
+          row.insertCell(0).innerHTML = "105k-124k";
+          row.insertCell(1).innerHTML = rankNames[7];
+        }
       }
+
+      
 
       // Update the scores.
       score += 10;
@@ -370,9 +481,9 @@ function World() {
     requestAnimationFrame(loop);
   }
 
-  
-  // A method called when window is resized.
-   
+  /**
+   * A method called when window is resized.
+   */
   function handleWindowResize() {
     renderer.setSize(element.clientWidth, element.clientHeight);
     camera.aspect = element.clientWidth / element.clientHeight;
@@ -410,8 +521,9 @@ function World() {
         var scaleCoin = 0.5
         var coin = new CoinFunc(lane * 800, -400, position, scaleCoin)
         objectsCoins.push(coin)
+        // objectsCoins.pop(coin)
         scene.add(coin.mesh)
-        
+        // scene.remove(coin.mesh)
       }
     }
   }
@@ -447,14 +559,14 @@ function World() {
 
     for (var i = 0; i < objectsCoins.length; i++) {
       if (objectsCoins[i].collides(charMinX,charMaxX,charMinY,charMaxY,charMinZ,charMaxZ)) {
+        scene.remove(objectsCoins[i].mesh)
         return true;
       }
     }
-
     return false;
   }
   
-}//end of world function
+}//enf of world function
 
 /**
  *
@@ -594,7 +706,9 @@ function Character() {
         case "left":
           if (self.currentLane != -1) {
             self.isSwitchingLeft = true;
-            camera_x -= 750;
+            left = true;
+            leftClick = true;
+            // camera_x -= 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -602,7 +716,9 @@ function Character() {
         case "right":
           if (self.currentLane != 1) {
             self.isSwitchingRight = true;
-            camera_x += 750;
+            right = true;
+            rightClick = true;
+            // camera_x += 750;
             // camera.position.set(camera_x, 1500, -2000);
             // camera.lookAt(new THREE.Vector3(0, 600, -5000));
           }
@@ -620,6 +736,64 @@ function Character() {
     camera_z_position -= 80;
     // console.log(camera_z_position);
     camera_z_look -= 80;
+
+    if(right){
+      if(center){
+        if(camera_x < 750){
+          camera_x +=187.5;
+        }
+        else{
+          right = false;
+          center = false;
+        }
+      }
+      else{ //currently at left lane
+        if(rightClick){ //right click
+          if(camera_x == -750){ //begining of left lane
+            camera_x +=187.5;
+            rightClick = false;
+          }
+        }
+        else{
+          if(camera_x < 0){ // no right click
+            camera_x +=187.5;
+          }
+          else{
+            right = false;
+            center = true;
+          }
+        } 
+      }
+    }
+
+    if(left){
+      if(center){
+        if(camera_x > -750){
+          camera_x -=187.5;
+        }
+        else{
+          left = false;
+          center = false;
+        }
+      }
+      else{ //currently at right lane
+        if(leftClick){ //right click
+          if(camera_x == 750){ //begining of right lane
+            camera_x -=187.5;
+            leftClick = false;
+          }
+        }
+        else{
+          if(camera_x > 0){ // no right click
+            camera_x -=187.5;
+          }
+          else{
+            left = false;
+            center = true;
+          }
+        } 
+      }
+    }
 
     camera.position.set(camera_x, camera_y, camera_z_position);
     camera.lookAt(new THREE.Vector3(camera_x, 650, camera_z_look));
@@ -835,6 +1009,7 @@ function CoinFunc(x, y, z, s) {
   coin.rotation.y = 1.5
 
   this.mesh.add(coin)
+  //this.mesh.add(sound)
 
   this.mesh.position.set(x, y, z);
   this.mesh.scale.set(s, s, s);
@@ -856,8 +1031,13 @@ function CoinFunc(x, y, z, s) {
 
 }
 
-//Functions that simplify and minimize repeated code.
-
+/**
+ *
+ * UTILITY FUNCTIONS
+ *
+ * Functions that simplify and minimize repeated code.
+ *
+ */
 
 /**
  * Utility function for generating current values of sinusoidally
@@ -909,7 +1089,6 @@ function createGroup(x, y, z) {
  * @return {THREE.Mesh} A box with the specified properties.
  *
  */
-
 function createBox(dx, dy, dz, color, x, y, z, notFlatShading) {
   var geom = new THREE.BoxGeometry(dx, dy, dz);
   var mat = new THREE.MeshPhongMaterial({
@@ -923,7 +1102,7 @@ function createBox(dx, dy, dz, color, x, y, z, notFlatShading) {
   return box;
 }
 
-/*
+/**
  * Creates and returns a (possibly asymmetrical) cyinder with the
  * specified properties.
  *
@@ -940,8 +1119,6 @@ function createBox(dx, dy, dz, color, x, y, z, notFlatShading) {
  */
 
 
-
-
 function createCylinder( radiusTop, radiusBottom, height, radialSegments, color, x, y, z) {
 
   var geom = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, radialSegments);
@@ -953,5 +1130,14 @@ function createCylinder( radiusTop, radiusBottom, height, radialSegments, color,
     cylinder.position.set(x, y, z);
     return cylinder;
 
- 
+  // var mat = new THREE.MeshPhongMaterial({
+  //   color: color,
+  //   flatShading: true,
+  // });
+  // var cylinder = new THREE.Mesh(geom, mat);
+
+  // cylinder.castShadow = true;
+  // cylinder.receiveShadow = true;
+  // cylinder.position.set(x, y, z);
+  // return cylinder;
 }
