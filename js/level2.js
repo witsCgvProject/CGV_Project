@@ -499,6 +499,7 @@ function World() {
 
     for (var i = 0; i < objectsCoins.length; i++) {
       if (objectsCoins[i].collides(charMinX,charMaxX,charMinY,charMaxY,charMinZ,charMaxZ)) {
+        scene.remove(objectsCoins[i].mesh);
         return true;
       }
     }

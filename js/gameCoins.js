@@ -507,8 +507,9 @@ function World() {
         var scaleCoin = 0.5
         var coin = new CoinFunc(lane * 800, -400, position, scaleCoin)
         objectsCoins.push(coin)
+        // objectsCoins.pop(coin)
         scene.add(coin.mesh)
-        
+        // scene.remove(coin.mesh)
       }
     }
   }
@@ -544,10 +545,10 @@ function World() {
 
     for (var i = 0; i < objectsCoins.length; i++) {
       if (objectsCoins[i].collides(charMinX,charMaxX,charMinY,charMaxY,charMinZ,charMaxZ)) {
+        scene.remove(objectsCoins[i].mesh)
         return true;
       }
     }
-
     return false;
   }
   
