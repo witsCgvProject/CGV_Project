@@ -121,22 +121,22 @@ function World() {
     scene.add(character.element);
 
     //Create Running Platform
-    var geometry = new THREE.BoxGeometry(4000, 0, 120000);
+    var geometry = new THREE.BoxGeometry(2800, 0, 120000);
     const loader = new THREE.TextureLoader().load( "images/floor_lv2.jpg", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const cube = new THREE.Mesh(geometry, material);
       cube.position.set(0, -400, -60000);
       loader.wrapS = THREE.RepeatWrapping;
       loader.wrapT = THREE.RepeatWrapping;
-      loader.repeat.set( 5, 30);
+      loader.repeat.set( 3, 30);
       scene.add(cube);
     });
 
-    var geometryLeft = new THREE.BoxGeometry(2000, 500, 120000);
+    var geometryLeft = new THREE.BoxGeometry(2000, 0, 120000);
     const loaderLeft = new THREE.TextureLoader().load( "images/wall_lv3_other.jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
-      cubeLeft.position.set(-1800, 500, -60000);
+      cubeLeft.position.set(-1500, 200, -60400);
       loaderLeft.wrapS = THREE.RepeatWrapping;
       loaderLeft.wrapT = THREE.RepeatWrapping;
       loaderLeft.repeat.set(1, 60);
@@ -144,14 +144,14 @@ function World() {
       cubeLeft.rotation.z =-1.5;
     });
 
-    var geometryRight = new THREE.BoxGeometry(2000, 500, 120000);
+    var geometryRight = new THREE.BoxGeometry(2000, 0, 120000);
     const loaderRight = new THREE.TextureLoader().load( "images/wall_lv3.jpg", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
-      cubeRight.position.set(1800, 500, -60000);
+      cubeRight.position.set(1500, 200, -60400);
       loaderRight.wrapS = THREE.RepeatWrapping;
       loaderRight.wrapT = THREE.RepeatWrapping;
-      loaderRight.repeat.set(1, 50);
+      loaderRight.repeat.set(1, 40);
       scene.add(cubeRight);
       cubeRight.rotation.z =1.5;
     });

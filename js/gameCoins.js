@@ -124,7 +124,7 @@ function World() {
     scene.add(character.element);
 
     //Create Running Platform
-    var geometry = new THREE.BoxGeometry(4000, 0, 120000);
+    var geometry = new THREE.BoxGeometry(3000, 0, 120000);
     const loader = new THREE.TextureLoader().load( "images/floor_lv1_try.jpg", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const cube = new THREE.Mesh(geometry, material);
@@ -135,36 +135,36 @@ function World() {
       scene.add(cube);
     });
 
-    var geometryLeft = new THREE.BoxGeometry(2000, 500, 120000);
+    var geometryLeft = new THREE.BoxGeometry(2000, 0, 120000);
     const loaderLeft = new THREE.TextureLoader().load( "images/wall_lv1_other.jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
-      cubeLeft.position.set(-1800, 0, -60000);
+      cubeLeft.position.set(-1500, 0, -60000);
       loaderLeft.wrapS = THREE.RepeatWrapping;
       loaderLeft.wrapT = THREE.RepeatWrapping;
-      loaderLeft.repeat.set(1, 50);
+      loaderLeft.repeat.set(1, 40);
       scene.add(cubeLeft);
       cubeLeft.rotation.z =-1.5;
     });
 
-    var geometryRight = new THREE.BoxGeometry(2000, 500, 120000);
+    var geometryRight = new THREE.BoxGeometry(2000, 0, 120000);
     const loaderRight = new THREE.TextureLoader().load( "images/wall_lv1.jpg", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
-      cubeRight.position.set(1800, 0, -60000);
+      cubeRight.position.set(1500, 0, -60000);
       loaderRight.wrapS = THREE.RepeatWrapping;
       loaderRight.wrapT = THREE.RepeatWrapping;
-      loaderRight.repeat.set(1, 50);
+      loaderRight.repeat.set(1, 40);
       scene.add(cubeRight);
       cubeRight.rotation.z =1.5;
     });
 
     //Create Back Wall 
-    var geometryBack = new THREE.BoxGeometry(3000, 1600, 0);
+    var geometryBack = new THREE.BoxGeometry(3500, 1500, 0);
     const loaderBack = new THREE.TextureLoader().load( "images/level_up_1.jpg", (texture) => {
       const materialBack = new THREE.MeshBasicMaterial({ map: texture });
       const cubeBack = new THREE.Mesh(geometryBack, materialBack);
-      cubeBack.position.set(0, 385, -120000);
+      cubeBack.position.set(0, 280, -120000);
       loaderBack.wrapS = THREE.RepeatWrapping;
       loaderBack.wrapT = THREE.RepeatWrapping;
       loaderBack.repeat.set(1, 1);
