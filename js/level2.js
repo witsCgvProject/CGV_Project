@@ -121,37 +121,37 @@ function World() {
     scene.add(character.element);
 
     //Create Running Platform
-    var geometry = new THREE.BoxGeometry(8000, 0, 120000);
-    const loader = new THREE.TextureLoader().load( "images/groundBricks.png", (texture) => {
+    var geometry = new THREE.BoxGeometry(3000, 0, 120000);
+    const loader = new THREE.TextureLoader().load( "images/floor_lv2.jpg", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const cube = new THREE.Mesh(geometry, material);
       cube.position.set(0, -400, -60000);
       loader.wrapS = THREE.RepeatWrapping;
       loader.wrapT = THREE.RepeatWrapping;
-      loader.repeat.set(7.5, 80);
+      loader.repeat.set(3, 80);
       scene.add(cube);
     });
 
-    var geometryLeft = new THREE.BoxGeometry(3000, 1500, 120000);
-    const loaderLeft = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
+    var geometryLeft = new THREE.BoxGeometry(1900, 1500, 120000);
+    const loaderLeft = new THREE.TextureLoader().load( "images/wall_lv2_other.jpg", (texture) => {
       const materialLeft = new THREE.MeshBasicMaterial({ map: texture });
       const cubeLeft = new THREE.Mesh(geometryLeft, materialLeft);
-      cubeLeft.position.set(-1800, -400, -60000);
+      cubeLeft.position.set(-2000, 200, -60000);
       loaderLeft.wrapS = THREE.RepeatWrapping;
       loaderLeft.wrapT = THREE.RepeatWrapping;
-      loaderLeft.repeat.set(1.5, 50);
+      loaderLeft.repeat.set(1, 50);
       scene.add(cubeLeft);
       cubeLeft.rotation.z =-1.5;
     });
 
-    var geometryRight = new THREE.BoxGeometry(3000, 1500, 120000);
-    const loaderRight = new THREE.TextureLoader().load( "images/079B5D25-D196-41A1-9ED04FA0B7BB16DA_source.png", (texture) => {
+    var geometryRight = new THREE.BoxGeometry(1900, 1500, 120000);
+    const loaderRight = new THREE.TextureLoader().load( "images/wall_lv2.jpg", (texture) => {
       const materialRight = new THREE.MeshBasicMaterial({ map: texture });
       const cubeRight = new THREE.Mesh(geometryRight, materialRight);
-      cubeRight.position.set(1800, -400, -60000);
+      cubeRight.position.set(2000, 200, -60000);
       loaderRight.wrapS = THREE.RepeatWrapping;
       loaderRight.wrapT = THREE.RepeatWrapping;
-      loaderRight.repeat.set(1.5, 50);
+      loaderRight.repeat.set(1, 50);
       scene.add(cubeRight);
       cubeRight.rotation.z =1.5;
     });
@@ -811,7 +811,7 @@ function Character() {
   // The object portrayed in the scene.
   this.mesh = new THREE.Object3D();
 
-  //make metallic spikes
+  //make rootlic spikes
 
   var spikeMiddle = createCylinder(0, 150, 750, 64, Colors.grey, 250, 500, 0);
   var spikeLeft = createCylinder(0, 150, 750, 64, Colors.grey, 0, 500, 0);
@@ -847,7 +847,7 @@ function Character() {
  else{
   var geometry = new THREE.BoxGeometry(1000, 500, 500);
   const loader = new THREE.TextureLoader();
-  loader.load("js/metal_text.jpg", (texture) => {
+  loader.load("images/root_text.jpg", (texture) => {
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const cube = new THREE.Mesh(geometry, material);
     this.mesh.add(cube);
@@ -882,7 +882,7 @@ function CoinFunc(x, y, z, s) {
   this.mesh = new THREE.Object3D();
 
   //Insert Coin
-  const texture = new THREE.TextureLoader().load( "js/coin_text.jpg" );
+  const texture = new THREE.TextureLoader().load( "images/coin_text.jpg" );
 
   const material = new THREE.MeshStandardMaterial({map: texture})
 
@@ -1005,7 +1005,7 @@ function createBox(dx, dy, dz, color, x, y, z, notFlatShading) {
 function createCylinder( radiusTop, radiusBottom, height, radialSegments, color, x, y, z) {
 
   var geom = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, radialSegments);
-  const texture = new THREE.TextureLoader().load( "js/metal_text.jpg" );
+  const texture = new THREE.TextureLoader().load( "images/root_text.jpg" );
   const mat = new THREE.MeshStandardMaterial({map: texture})
     var cylinder = new THREE.Mesh(geom, mat);
     cylinder.castShadow = true;

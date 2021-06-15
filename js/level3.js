@@ -122,7 +122,7 @@ function World() {
 
     //Create Running Platform
     var geometry = new THREE.BoxGeometry(2800, 0, 120000);
-    const loader = new THREE.TextureLoader().load( "images/floor_lv2.jpg", (texture) => {
+    const loader = new THREE.TextureLoader().load( "images/floor_lv3.jpg", (texture) => {
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const cube = new THREE.Mesh(geometry, material);
       cube.position.set(0, -400, -60000);
