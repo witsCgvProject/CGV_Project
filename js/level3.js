@@ -26,6 +26,10 @@ var camera_y;
 var camera_z_position;
 var camera_z_look;
 var deg2Rad = Math.PI / 180;
+var stateNo;
+var cameraXPosition;
+var cameraYPosition;
+var cameraYLookPlus;
 
 // Make a new world when the page is loaded.
 window.addEventListener("load", function () {
@@ -79,6 +83,10 @@ function World() {
     camera_y=700;
     camera_z_position = -1600;
     camera_z_look = -100000;
+    stateNo =0;
+    cameraXPosition = -1370;
+    cameraYPosition = 1300;
+    cameraYLookPlus = 0;
     element = document.getElementById("world");
 
     // Initialize the renderer.
@@ -754,9 +762,30 @@ function Character() {
     self.element.position.z -= 80;
     
     //move camera
-    camera.position.set(self.element.position.x, camera_y, camera_z_position);
-    camera.lookAt(new THREE.Vector3(self.element.position.x, 650, self.element.position.z));
-    window.camera = camera;
+    // camera.position.set(self.element.position.x, camera_y, camera_z_position);
+    // camera.lookAt(new THREE.Vector3(self.element.position.x, 650, self.element.position.z));
+    // window.camera = camera;
+
+    //move camera depending on state num
+    if(stateNo<50){
+      camera.position.set(cameraXPosition, cameraYPosition, -8080);
+      camera.lookAt(new THREE.Vector3(self.element.position.x, self.element.position.y, self.element.position.z));
+      window.camera = camera;
+    }
+    else if(stateNo<80){
+      cameraXPosition += 45.67;
+      cameraYPosition -= 20;
+      cameraYLookPlus +=21.33; //to do
+      camera.position.set(cameraXPosition, cameraYPosition, -8080);
+      camera.lookAt(new THREE.Vector3(self.element.position.x, self.element.position.y +cameraYLookPlus, self.element.position.z));
+      window.camera = camera;
+    }
+    else{
+      camera.position.set(self.element.position.x, camera_y, camera_z_position);
+      camera.lookAt(new THREE.Vector3(self.element.position.x, 650, self.element.position.z));
+      window.camera = camera;
+    }
+    stateNo++;
   };
 
   /**
