@@ -102,6 +102,7 @@ function World() {
     scene = new THREE.Scene();
     fogDistance = 30000;
     scene.fog = new THREE.Fog(0xbadbe4, 1, fogDistance);
+    scene.background = new THREE.Color( 0xCCE788 );
 
     // Initialize the camera with field of view, aspect ratio,
     // near plane, and far plane.
